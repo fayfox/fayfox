@@ -93,7 +93,7 @@ class WidgetController extends AdminController{
 	/**
 	 * 加载一个widget
 	 */
-	public function load(){
+	public function render(){
 		if($this->input->get('name')){
 			$widget_obj = $this->widget->get($this->input->get('name', 'trim'));
 			if($widget_obj == null){

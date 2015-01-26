@@ -8,7 +8,7 @@ use fayfox\helpers\Html;
 		<h4>平台切换</h4>
 	</div>
 	<div class="box-content">
-		<form action="<?php echo $this->url('admin/widget/load', array(
+		<form action="<?php echo $this->url('admin/widget/render', array(
 			'name'=>'backend/change_app',
 			'action'=>'change',
 		), false)?>" method="post" id="change-app-form">

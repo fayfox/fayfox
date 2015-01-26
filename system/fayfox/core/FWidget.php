@@ -70,7 +70,7 @@ class FWidget extends FBase{
 					echo '<script>
 						$.ajax({
 							type: "GET",
-							url: "'.\F::app()->view->url(\F::app()->uri->module.'/widget/load', array('name'=>$name) + $options, false).'",
+							url: "'.\F::app()->view->url(\F::app()->uri->module.'/widget/render', array('name'=>$name) + $options, false).'",
 							cache: false,
 							success: function(resp){
 								$("#'.$id.'").replaceWith(resp);
