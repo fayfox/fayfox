@@ -35,7 +35,6 @@ use fayfox\helpers\Html;
 #debug-container .trace-table th, .trace-table td{padding-left:12px;}
 
 #debug-container .p5{padding:5px;}
--->
 </style>
 <div id="debug-container">
 	<div class="tabbable">

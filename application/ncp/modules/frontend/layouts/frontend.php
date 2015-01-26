@@ -33,7 +33,7 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 </div>
 <script type="text/javascript" src="<?php echo $this->staticFile('js/gb.js')?>"></script>
 <?php if(F::session()->get('role', 0, F::config()->get('session_namespace').'_admin') == Users::ROLE_SUPERADMIN){
-	include '_debug.php';
+	$this->renderPartial('common/_debug');
 }?>
 </body>
 </html>
