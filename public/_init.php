@@ -5,7 +5,7 @@ use fayfox\core\Response;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
-define('SYSTEM_PATH', realpath(BASEPATH.'..'.DS.'system') . DS);
+define('SYSTEM_PATH', realpath(BASEPATH.'..'.DS.'vendor') . DS);
 define('BACKEND_PATH', realpath(SYSTEM_PATH.'backend').DS);
 define('MODULE_PATH', realpath(APPLICATION_PATH . 'modules') . DS);
 
