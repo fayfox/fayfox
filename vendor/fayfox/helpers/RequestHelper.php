@@ -153,7 +153,7 @@ class RequestHelper{
 	}
 	
 	public static function renderBacktrace($backtrace = null){
-		$base_path = substr(BASEPATH, 0, -7);
+		$base_path = substr(BASEPATH, 0, -7);//除去最后的public/
 		$base_path_length = strlen($base_path);
 		$backtrace === null && $backtrace = array_slice(debug_backtrace(false), 1);
 		echo '<table class="trace-table debug-table">',

@@ -212,4 +212,9 @@ class TestController extends AdminController{
 // 			),
 // 		));
 	}
+	
+	public function debug(){
+		$this->layout_template = null;
+		$this->view->render();
+	}
 }

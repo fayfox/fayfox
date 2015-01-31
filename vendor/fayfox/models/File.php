@@ -330,4 +330,26 @@ class File extends Model{
 		}
 		return true;
 	}
+	
+	/**
+	 * 获取文件的一行或前后N行
+	 * @param string $file 文件路径
+	 * @param int $line 行号
+	 * @param int $adjacents 前后行数
+	 */
+	public static function getFileLine($file, $line, $adjacents = 0){
+		$file = file($file);
+		if($adjacents){
+			$offset = $line - $adjacents - 1;//开始截取位置
+			$offset < 0 && $offset = 0;
+			$end = $line + $adjacents;//结束截取位置
+			$file_line_count = count($file);//文件行数
+			$end > $file_line_count && $end = $file_line_count;
+			
+			$fragment = array_slice($file, $offset, $end - $offset);
+			return implode('', $fragment);
+		}else{
+			return $file[$line - 1];
+		}
+	}
 }

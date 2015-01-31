@@ -119,7 +119,6 @@ class View extends FBase{
 	/**
 	 *渲染一个视图
 	 * @param string $view 视图文件
-	 * @param array $view_data 传递给视图的参数
 	 * @param string $layout 模板文件目录
 	 * @param array $layout_data 传递给模板的参数
 	 */

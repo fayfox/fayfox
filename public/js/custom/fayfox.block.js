@@ -3,9 +3,7 @@
  */
 jQuery.fn.extend({
 	'block': function(options){
-		if(typeof(options) == 'undefined'){
-			options = {};
-		}
+		options = options || {};
 		this.each(function(){
 			if($(this).is(':visible')){//对于不可见的元素，就不加覆盖层了
 				$(this).unblock();

@@ -94,7 +94,7 @@ class Uri extends FBase{
 		if($ext != ''){
 			if(substr($request, 0 - strlen($ext)) != $ext){
 				//扩展名异常，无法进行路由
-				$this->router = 404;
+				$this->router = false;
 				return;
 			}else{
 				$request = substr($request, 0, 0 - strlen($ext));

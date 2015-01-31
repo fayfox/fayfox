@@ -2,6 +2,7 @@
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 use fayfox\core\Response;
+use fayfox\core\ErrorHandler;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('APPLICATION_PATH', realpath(BASEPATH.'..'.DS.'application'.DS.APPLICATION).DS);
@@ -32,6 +33,9 @@ function __autoload($class_name){
 	}
 	Response::showError($class_name.'类文件不存在');
 }
+
+$error_handler = new ErrorHandler();
+$error_handler->register();
 
 
 /**

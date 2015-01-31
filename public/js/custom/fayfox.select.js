@@ -191,9 +191,7 @@ jQuery.fn.extend({
 			}
 		};
 		
-		if(typeof(options) == 'undefined'){
-			options = {};
-		}
+		options = options || {};
 		var settings = {
 			'maxHeight':200,
 			'afterSetChoice':function(o){}

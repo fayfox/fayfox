@@ -24,8 +24,10 @@ class Bootstrap extends FBase{
 		//路由
 		$uri = new Uri();
 		
-		if($uri->router == 404){
-			Response::showError('您请求的页面不存在<br />router:'.$uri->router, 404, '页面不存在');
+		if(!$uri->router){
+			//路由解析失败
+			throw new ErrorException('您请求的页面不存在', 'router-parse-error', E_ERROR);
+			Response::showError('您请求的页面不存在', 404, '页面不存在');
 		}
 		
 		//根据router来读取缓存
@@ -55,7 +57,8 @@ class Bootstrap extends FBase{
 			}
 			$controller->{$file['action']}();
 		}else{
-			Response::showError('您请求的页面不存在<br />router:'.$uri->router, 404, '页面不存在');
+			throw new HttpException(404, '您请求的页面不存在');
+			//Response::showError('您请求的页面不存在', 404, '页面不存在');
 		}
 		
 	}

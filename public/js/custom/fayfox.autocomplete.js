@@ -1,8 +1,6 @@
 jQuery.fn.extend({
 	autocomplete: function(options){
-		if(typeof(options) == 'undefined'){
-			options = {};
-		}
+		options = options || {};
 		var settings = {
 			'maxHeight':200,
 			'startSuggestLength':3,

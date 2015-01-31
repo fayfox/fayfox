@@ -47,7 +47,7 @@ return array(
 	'environment'=>'development',
 	
 	/*
-	 * 是否显示debug信息（如sql日志，系统堆栈等），上线环境一般设为false
+	 * 若系统环境为development且debug为true，则任何报错（例如：Notice）都会导致页面执行终端
 	 * 默认为false
 	 */
 	'debug'=>true,
