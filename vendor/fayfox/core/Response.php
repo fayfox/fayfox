@@ -76,7 +76,7 @@ class Response extends FBase{
 	);
 	
 	/**
-	 * 显示错误
+	 * 当Exception不好用的时候（比如在异常中又出现异常），用此函数显示错误
 	 * @param string $message
 	 * @param int $status_code http状态码
 	 * @param string $heading
@@ -91,7 +91,7 @@ class Response extends FBase{
 			'heading'=>$heading,
 		));
 		$app->view->_backtrace = debug_backtrace(false);
-		$app->view->renderPartial('common/error_general');
+		$app->view->renderPartial('errors/general');
 		die;
 	}
 	

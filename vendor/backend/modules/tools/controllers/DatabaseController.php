@@ -3,14 +3,22 @@ namespace backend\modules\tools\controllers;
 
 use backend\library\ToolsController;
 use fayfox\helpers\String;
+use fayfox\core\Db;
 
 class DatabaseController extends ToolsController{
+	/**
+	 * @var Db
+	 */
+	public $db;
+	
 	public function __construct(){
 		parent::__construct();
 		$this->layout->current_directory = 'database';
 		
 		//登陆检查，仅超级管理员可访问本模块
 		$this->isLogin();
+		
+		$this->db = Db::getInstance();
 	}
 	
 	public function model(){

@@ -6,6 +6,7 @@ use fayfox\models\tables\Options;
 use fayfox\core\Sql;
 use fayfox\common\ListView;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class OptionController extends AdminController{
 	public function __construct(){
@@ -61,7 +62,7 @@ class OptionController extends AdminController{
 			
 			$this->view->render();
 		}else{
-			Response::showError('无效的ID');
+			throw new HttpException('无效的ID');
 		}
 	}
 	

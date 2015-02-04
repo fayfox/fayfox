@@ -1,6 +1,3 @@
-<?php 
-use fayfox\helpers\RequestHelper;
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +21,8 @@ p, pre, code, .track-table{margin:12px 15px 12px 15px;}
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo $heading?></h1>
-		<div class="content"><?php echo $message?></div>
-		<?php if(F::app()->config->get('debug')){
-			RequestHelper::renderBacktrace(isset($_backtrace) ? $_backtrace : null);
-		}?>
+		<h1>出错啦</h1>
+		<div class="content">服务器内部错误</div>
 	</div>
 </body>
 </html>

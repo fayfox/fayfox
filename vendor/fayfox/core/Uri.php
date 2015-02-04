@@ -20,7 +20,7 @@ class Uri extends FBase{
 	 * 出于SEO考虑，有些router带有中横线，将其转换为大小写分割，并且首字母小写
 	 */
  	public $action;
-    private static $_instance;
+	private static $_instance;
 	
 	public function __construct(){
 		$this->input = Input::getInstance();
@@ -46,7 +46,6 @@ class Uri extends FBase{
 	}
 	
 	private function _parseHttpArgs(){
-		$full_url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		//若配置文件中未设置base_url，则系统猜测一个
 		$base_url = $this->config('base_url');
 		if(!$base_url){
@@ -58,15 +57,17 @@ class Uri extends FBase{
 				//由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
 				$folder = '/'.$folder;
 			}
-			$base_url = 'http://'.$_SERVER['HTTP_HOST'].$folder.'/';
+			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
 			$this->setConfig('base_url', $base_url);
 		}
-		$base_url_length = strlen($base_url);
-		//问号后面的东西已经在$_GET数组里了
-		if(strpos($full_url, '?') !== false){
-			$request = substr($full_url, $base_url_length, strpos($full_url, '?') - $base_url_length);
+		
+		$base_url_params = parse_url($base_url);
+		$base_url_path_length = strlen($base_url_params['path']);
+		//过滤掉问号后面的部分
+		if(strpos($_SERVER['REQUEST_URI'], '?') !== false){
+			$request = substr($_SERVER['REQUEST_URI'], $base_url_path_length, strpos($_SERVER['REQUEST_URI'], '?') - $base_url_path_length);
 		}else{
-			$request = substr($full_url, $base_url_length);
+			$request = substr($_SERVER['REQUEST_URI'], $base_url_path_length);
 		}
 		
 		if($request == ''){

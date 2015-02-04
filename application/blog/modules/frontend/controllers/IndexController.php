@@ -7,6 +7,7 @@ use fayfox\core\Sql;
 use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
 use fayfox\models\Category;
+use fayfox\core\HttpException;
 
 class IndexController extends FrontController{
 	public function __construct(){
@@ -34,6 +35,9 @@ class IndexController extends FrontController{
 		$reload = $this->view->url();
 		if($this->input->get('cat')){
 			$cat = Category::model()->get($this->input->get('cat', 'intval'));
+			if(!$cat){
+				throw new HttpException('分类不存在');
+			}
 			$sql->where(array(
 				'c.left_value >= '.$cat['left_value'],
 				'c.right_value <= '.$cat['right_value'],

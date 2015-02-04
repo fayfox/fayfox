@@ -12,6 +12,7 @@ use fayfox\common\ListView;
 use fayfox\models\Page;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
+use fayfox\core\HttpException;
 
 class PageController extends AdminController{
 	public $boxes = array(
@@ -214,7 +215,7 @@ class PageController extends AdminController{
 			$this->view->page = $page;
 			$this->form()->setData($page);
 		}else{
-			Response::showError('无效的页面ID');
+			throw new HttpException('无效的页面ID');
 		}
 
 		$this->view->render();

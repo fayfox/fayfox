@@ -2,7 +2,7 @@
 namespace ncp\modules\frontend\controllers;
 
 use ncp\library\FrontController;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\models\tables\Posts;
 use fayfox\core\Sql;
 use fayfox\models\Category;
@@ -55,7 +55,7 @@ class SpecialController extends FrontController{
 				'pageSize'=>10,
 			));
 		}else{
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		
 		$product_cat = Category::model()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
@@ -68,7 +68,7 @@ class SpecialController extends FrontController{
 		$id = $this->input->get('id', 'intval');
 		
 		if(!$id || !$post = Post::model()->get($id, '', 'special', true)){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
 			'last_view_time'=>$this->current_time,

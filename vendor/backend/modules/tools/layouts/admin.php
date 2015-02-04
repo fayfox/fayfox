@@ -4,7 +4,7 @@ use fayfox\helpers\Html;
 use fayfox\models\tables\Users;
 use fayfox\helpers\String;
 use fayfox\helpers\SqlHelper;
-use fayfox\helpers\RequestHelper;
+use fayfox\helpers\Backtrace;
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,15 +91,6 @@ system.user_id = '<?php echo F::app()->session->get('id', 0)?>';
 				<?php echo $content?>
 			</div>
 			<div class="clear"></div>
-			<?php if(F::app()->session->get('role') == Users::ROLE_SUPERADMIN){?>
-			<div style="position:absolute;bottom:10px;">
-				数据库操作:<?php echo F::app()->db->getCount()?>次
-				|
-				内存使用:<?php echo round(memory_get_usage()/1024, 2), 'KB'?>
-				|
-				执行时间:<?php echo String::money((microtime(true) - START) * 1000)?>ms
-			</div>
-			<?php }?>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -119,39 +110,5 @@ $(function(){
 </script>
 <img src="<?php echo $this->url()?>images/throbber.gif" class="hide" />
 <img src="<?php echo $this->url()?>images/ajax-loading.gif" class="hide" />
-<?php if(F::app()->config->get('debug')){?>
-<div id="debug-container">
-	<div class="tabbable">
-		<ul class="nav-tabs">
-			<li class="active"><a href="#debug-tab-1">Sql Log</a></li>
-			<li><a href="#debug-tab-2">Backtrace</a></li>
-		</ul>
-		<div class="tab-content">
-			<div id="debug-tab-1" class="tab-pane p5">
-				<table class="inbox-table">
-				<?php 
-					$total_db_time = 0;
-					$sqls = F::app()->db->getSqlLogs();
-					foreach($sqls as $k=>$s){
-						$total_db_time += $s[2]?>
-					<tr>
-						<td><?php echo $k+1?></td>
-						<td><?php echo SqlHelper::nice(Html::encode($s[0]), $s[1])?></td>
-						<td><?php echo String::money($s[2] * 1000)?>ms</td>
-					</tr>
-				<?php }?>
-					<tr>
-						<td colspan="2" align="center">数据库耗时</td>
-						<td><?php echo String::money($total_db_time * 1000)?>ms</td>
-					</tr>
-				</table>
-			</div>
-			<div id="debug-tab-2" class="tab-pane p5 hide">
-				<?php RequestHelper::renderBacktrace()?>
-			</div>
-		</div>
-	</div>
-</div>
-<?php }?>
 </body>
 </html>

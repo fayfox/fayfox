@@ -6,14 +6,14 @@ use fayfox\models\Category;
 use fayfox\core\Sql;
 use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class CatController extends FrontController{
 	public function index(){
 		$cat = Category::model()->get($this->input->get('id', 'intval'));
 		
 		if(!$cat){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		
 		$this->layout->title = $cat['seo_title'] ? $cat['seo_title'] : $cat['title'];

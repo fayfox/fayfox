@@ -218,8 +218,6 @@ class AdminController extends Controller{
 	
 	public function __construct(){
 		parent::__construct();
-		//后台开启所有报错
-		error_reporting(E_ALL);
 		//重置session_namespace
 		$this->config->set('session_namespace', $this->config->get('session_namespace').'_admin');
 		//验证session中是否有值

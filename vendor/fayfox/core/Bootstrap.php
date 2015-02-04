@@ -26,8 +26,7 @@ class Bootstrap extends FBase{
 		
 		if(!$uri->router){
 			//路由解析失败
-			throw new ErrorException('您请求的页面不存在', 'router-parse-error', E_ERROR);
-			Response::showError('您请求的页面不存在', 404, '页面不存在');
+			throw new HttpException('Routing format illegal');
 		}
 		
 		//根据router来读取缓存
@@ -50,16 +49,11 @@ class Bootstrap extends FBase{
 		}
 		
 		$file = $this->getControllerAndAction($uri);
-		if($file){
-			$controller = new $file['controller'];
-			if($this->config('hook')){
-				Hook::getInstance()->call('after_controller_constructor');
-			}
-			$controller->{$file['action']}();
-		}else{
-			throw new HttpException(404, '您请求的页面不存在');
-			//Response::showError('您请求的页面不存在', 404, '页面不存在');
+		$controller = new $file['controller'];
+		if($this->config('hook')){
+			Hook::getInstance()->call('after_controller_constructor');
 		}
+		$controller->{$file['action']}();
 		
 	}
 	
@@ -82,6 +76,8 @@ class Bootstrap extends FBase{
 					'controller'=>$class_name,
 					'action'=>$uri->action.'Action',
 				);
+			}else{
+				throw new HttpException("Action \"{$uri->action}\" Not Found");
 			}
 		}
 		
@@ -100,10 +96,12 @@ class Bootstrap extends FBase{
 					'controller'=>$class_name,
 					'action'=>$uri->action.'Action',
 				);
+			}else{
+				throw new HttpException("Action \"{$uri->action}\" Not Found");
 			}
 		}
 		
 		//访问地址不存在
-		return false;
+		throw new HttpException("Controller \"{$uri->controller}\" Not Found");
 	}
 }

@@ -2,7 +2,7 @@
 namespace backend\modules\tools\controllers;
 
 use backend\library\ToolsController;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class RedirectController extends ToolsController{
 	/**
@@ -19,7 +19,7 @@ class RedirectController extends ToolsController{
 			header('location:'.$this->form()->getData('url'));
 			die;
 		}else{
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('参数异常', 500);
 		}
 	}
 }

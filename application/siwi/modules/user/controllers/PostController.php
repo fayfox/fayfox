@@ -9,8 +9,7 @@ use fayfox\models\tables\Files;
 use fayfox\models\Tag;
 use fayfox\models\Category;
 use fayfox\core\Sql;
-use fayfox\core\Response;
-use fayfox\core\Validator;
+use fayfox\core\HttpException;
 
 class PostController extends UserController{
 	private $rules = array(
@@ -83,15 +82,15 @@ class PostController extends UserController{
 		
 		$id = $this->input->get('id', 'intval');
 		if(!$id){
-			Response::showError('不完整的请求');
+			throw new HttpException('不完整的请求');
 		}
 		
 		$post = Posts::model()->find($id);
 		if(!$post){
-			Response::showError('文章编号不存在');
+			throw new HttpException('文章编号不存在');
 		}
 		if($post['user_id'] != $this->current_user){
-			Response::showError('您无权限编辑此文章');
+			throw new HttpException('您无权限编辑此文章');
 		}
 		
 		$this->form()->setRules($this->rules);

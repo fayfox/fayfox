@@ -4,7 +4,7 @@ namespace cddx\modules\frontend\controllers;
 use cddx\library\FrontController;
 use fayfox\core\Sql;
 use fayfox\models\tables\Posts;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\models\Category;
 use fayfox\common\ListView;
 use fayfox\core\db\Intact;
@@ -16,7 +16,7 @@ class PostController extends FrontController{
 		
 		//获取分类
 		if(!$cat_id || !$cat = Category::model()->get($cat_id)){
-			Response::showError('您请求的页面不存在', 404, '页面不存在');
+			throw new HttpException('您请求的页面不存在');
 		}
 		
 		$sql = new Sql();
@@ -63,7 +63,7 @@ class PostController extends FrontController{
 		$id = $this->input->get('id', 'intval');
 		
 		if(!$id || !$post = Post::model()->get($id, 'files')){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
 			'last_view_time'=>$this->current_time,

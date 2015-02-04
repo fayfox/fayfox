@@ -11,9 +11,10 @@ return array(
 		'host'=>'localhost',					//数据库服务器
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
-		'dbname'=>'fayfox_blog',						//数据库名
+		'port'=>3306,							//端口
+		'dbname'=>'fayfox_blog',				//数据库名
 		'charset'=>'utf8',						//数据库编码方式
-		'table_prefix'=>'fayfox_',					//数据库表前缀
+		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	
 	/*

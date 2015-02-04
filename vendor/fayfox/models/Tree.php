@@ -3,7 +3,7 @@ namespace fayfox\models;
 
 use fayfox\core\Model;
 use fayfox\core\db\Intact;
-use fayfox\core\Response;
+use fayfox\core\Exception;
 
 class Tree extends Model{
 	/**
@@ -42,6 +42,14 @@ class Tree extends Model{
 		return $start_num;
 	}
 	
+	/**
+	 * 创建一个节点
+	 * @param array $model 表模型
+	 * @param int $parent 父节点
+	 * @param int $sort 排序值
+	 * @param array $data 其它参数
+	 * @return unknown
+	 */
 	public function create($model, $parent, $sort, $data){
 		if($parent == 0){
 			//插入根节点
@@ -73,7 +81,7 @@ class Tree extends Model{
 		}else{
 			$parent_node = \F::model($model)->find($parent, 'left_value,right_value');
 			if(!$parent_node){
-				Response::showError('父节点不存在， 参数异常');
+				throw new Exception('父节点不存在， 参数异常');
 			}
 			
 			if($parent_node['right_value'] - $parent_node['left_value'] == 1){

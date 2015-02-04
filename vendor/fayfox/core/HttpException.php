@@ -8,16 +8,16 @@ class HttpException extends \Exception
 	 */
 	public $statusCode;
 
-	public function __construct($status, $message = null, $code = 0, \Exception $previous = null)
-	{
+	public function __construct($message = null, $status = 404, $code = 0, \Exception $previous = null){
 		$this->statusCode = $status;
+		$message || $message = $this->getLevel();
 		parent::__construct($message, $code, $previous);
 	}
 
 	/**
 	 * @return 返回一个状态码描述
 	 */
-	public function getName(){
+	public function getLevel(){
 		if (isset(Response::$httpStatuses[$this->statusCode])) {
 			return Response::$httpStatuses[$this->statusCode];
 		} else {

@@ -4,14 +4,14 @@ namespace jxsj\modules\frontend\controllers;
 use jxsj\library\FrontController;
 use fayfox\models\Post;
 use fayfox\models\tables\Posts;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class PostController extends FrontController{
 	public function item(){
 		$post = Post::model()->get($this->input->get('id', 'intval'), 'nav,files');
 		
 		if(!$post){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		//阅读数
 		Posts::model()->inc($post['id'], 'views', 1);

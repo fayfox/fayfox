@@ -1,8 +1,14 @@
 <?php
-use fayfox\helpers\RequestHelper;
+/**
+ * 开发模式或debug模式下，出现在页面底部的debug数据
+ */
+use fayfox\helpers\Backtrace;
 use fayfox\helpers\String;
 use fayfox\helpers\SqlHelper;
 use fayfox\helpers\Html;
+use fayfox\core\Db;
+
+$db = Db::getInstance();
 ?>
 <style>
 /* tab切换 */
@@ -45,7 +51,7 @@ use fayfox\helpers\Html;
 		<div class="tab-content">
 			<div id="debug-tab-1" class="tab-pane p5">
 				<div class="p5">
-					数据库操作:<?php echo \F::app()->db->getCount()?>次
+					数据库操作:<?php echo $db->getCount()?>次
 					|
 					内存使用:<?php echo round(memory_get_usage()/1024, 2)?>KB
 					|
@@ -54,7 +60,7 @@ use fayfox\helpers\Html;
 				<table class="debug-table">
 				<?php 
 					$total_db_time = 0;
-					$sqls = \F::app()->db->getSqlLogs();
+					$sqls = $db->getSqlLogs();
 					foreach($sqls as $k=>$s){
 						$total_db_time += $s[2]?>
 					<tr>
@@ -70,7 +76,7 @@ use fayfox\helpers\Html;
 				</table>
 			</div>
 			<div id="debug-tab-2" class="tab-pane p5 hide" style="display:none;">
-				<?php RequestHelper::renderBacktrace()?>
+				<?php Backtrace::render()?>
 			</div>
 		</div>
 	</div>

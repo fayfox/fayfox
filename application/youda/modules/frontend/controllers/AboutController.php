@@ -3,7 +3,7 @@ namespace youda\modules\frontend\controllers;
 
 use youda\library\FrontController;
 use fayfox\models\tables\Pages;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class AboutController extends FrontController{
 	public $layout_template = 'inner';
@@ -11,7 +11,7 @@ class AboutController extends FrontController{
 	public function index(){
 		$page = Pages::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'trim', 'about')));
 		if(!$page){
-			Response::showError('您请求的页面不存在', 404, '页面不存在');
+			throw new HttpException('您请求的页面不存在');
 		}
 		$this->view->page = $page;
 		//SEO

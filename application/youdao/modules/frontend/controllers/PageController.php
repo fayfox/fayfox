@@ -3,7 +3,7 @@ namespace youdao\modules\frontend\controllers;
 
 use youdao\library\FrontController;
 use fayfox\models\tables\Pages;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class PageController extends FrontController{
 	public $layout_template = 'inner';
@@ -23,7 +23,7 @@ class PageController extends FrontController{
 			Pages::model()->inc($page['id'], 'views', 1);
 			$this->view->page = $page;
 		}else{
-			Response::showError('您请求的页面不存在', 404, '页面不存在');
+			throw new HttpException('您请求的页面不存在');
 		}
 
 		$this->layout->submenu = array(

@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\models\Post;
 
 class PostController extends FrontController{
@@ -19,12 +19,12 @@ class PostController extends FrontController{
 	public function item(){
 		//auth request
 		if(!$this->input->get('id') || !is_numeric($this->input->get('id'))){
-			Response::showError('异常的请求');
+			throw new HttpException('异常的请求');
 		}
 		
 		$post = Post::model()->get($this->input->get('id', 'intval'), 'messages,nav,categories');
 		if(!$post){
-			Response::showError('404 页面不存在', 404);
+			throw new HttpException('文章不存在', 404);
 		}
 		$this->view->post = $post;
 		

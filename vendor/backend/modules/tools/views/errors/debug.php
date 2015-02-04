@@ -4,13 +4,28 @@ use fayfox\helpers\Html;
 use fayfox\core\Uri;
 
 $_backtrace = $exception->getTrace();
-$level = $exception->getLevel();
+
+//抛出异常的位置
+array_unshift($_backtrace, array(
+	'file'=>$exception->getFile(),
+	'line'=>$exception->getLine(),
+	'function'=>'throw',
+	'class'=>'',
+	'type'=>'',
+	'args'=>array(),
+));
+
+if(method_exists($exception, 'getLevel')){
+	$level = $exception->getLevel();
+}else{
+	$level = 'Error';
+}
 ?>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8" />
-<title><?php echo $level, ' - ', $exception->getMessage()?></title>
+<title><?php echo $level?></title>
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo $this->url()?>js/prettify.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo $this->url()?>css/debug.css" />
@@ -18,12 +33,30 @@ $level = $exception->getLevel();
 <body>
 <div class="header">
 	<h1><?php echo $level, ' - ', $exception->getMessage()?></h1>
+	<?php if(isset($exception->description)){
+		echo '<p>', $exception->description, '</p>';
+	}?>
 	<i class="icon"></i>
 </div>
 <div class="backtrace">
 	<div id="backtrace-container">
-	<?php foreach($_backtrace as $k => $b){?>
-		<div <?php if(!$k)echo 'class="act"'?>>
+	<?php
+		$code_count = 0;
+		foreach($_backtrace as $k => $b){
+			$code = '';
+			if(isset($b['file']) && $source = File::getFileLine($b['file'], $b['line'], 10)){
+				$code = Html::tag('pre', array(
+					'class'=>'prettyprint linenums:'.($b['line'] - 10 < 1 ? 1 : $b['line'] - 10),
+					'data-line'=>$b['line'],
+					'wrapper'=>array(
+						'tag'=>'div',
+						'class'=>'code-wrap',
+						'style'=>++$code_count == 1 ? 'display:block' : false,
+					),
+				), Html::encode(str_replace("\t", '    ', $source)));
+			}
+	?>
+		<div class="<?php if($code_count == 1)echo 'act'?> <?php if($code){echo 'with-code';}else{echo 'no-code';}?>">
 			<div class="element-wrap">
 				<p class="function"><span class="index"><?php echo $k+1?>.</span><?php
 					if(isset($b['class'])){
@@ -31,25 +64,35 @@ $level = $exception->getLevel();
 					}else{
 						echo "{$b['function']}()";
 					}
+					if($code){
+						echo '<i class="icon-file"></i>';
+					}
 				?></p>
 				<p class="file"><?php if(isset($b['file'])){
 					echo $b['file'], ':(', $b['line'], ')';
 				}?></p>
 			</div>
-			<?php if(isset($b['file'])){?>
-			<div class="code-wrap" <?php if(!$k)echo 'style="display:block"'?>>
-				<pre class="prettyprint linenums:<?php echo $b['line'] - 10 < 1 ? 1 : $b['line'] - 10?>" data-line="<?php echo $b['line']?>"><?php
-					$source = File::getFileLine($b['file'], $b['line'], 10);
-					$source || $source = '无相关文件';
-					echo Html::encode(str_replace("\t", '    ', $source));//tab转四个空格，免得缩进太多不好看
-				?></pre>
-			</div>
-			<?php }?>
+			<?php echo $code?>
 		</div>
 	<?php }?>
 	</div>
 </div>
 <div class="system-data">
+	<h3>Config</h3>
+	<table class="data-table">
+		<tr>
+			<th>base_url</th>
+			<td><?php echo F::config()->get('base_url')?></td>
+		</tr>
+		<tr>
+			<th>url_suffix</th>
+			<td><?php echo F::config()->get('url_suffix')?></td>
+		</tr>
+		<tr>
+			<th>default_router</th>
+			<td><?php echo implode('/', F::config()->get('default_router'))?></td>
+		</tr>
+	</table>
 	<h3>System Data</h3>
 	<table class="data-table">
 		<tr>
@@ -78,17 +121,11 @@ $level = $exception->getLevel();
 		</tr>
 	</table>
 	<h3>SERVER</h3>
-	<?php $server_keys = array(
-		'OS', 'SERVER_SOFTWARE', 'DOCUMENT_ROOT', 'DOCUMENT_URI', 'REQUEST_URI', 'SCRIPT_NAME', 'REQUEST_METHOD',
-		'SCRIPT_FILENAME', 'FCGI_ROLE', 'PHP_SELF', 'SERVER_PORT', 'SERVER_NAME', 'SERVER_ADDR', 'HTTP_HOST',
-		'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR', 'HTTP_ACCEPT_ENCODING', 'Path', 'PROCESSOR_ARCHITECTURE',
-		'PROCESSOR_ARCHITEW6432', 'PROCESSOR_IDENTIFIER', 'REMOTE_PORT', 'REQUEST_TIME',
-	);//选择性显示一些SERVER数据?>
 	<table class="data-table">
-	<?php foreach($server_keys as $k){?>
+	<?php foreach($_SERVER as $k => $v){?>
 		<tr>
 			<th><?php echo $k?></th>
-			<td><?php isset($_SERVER[$k]) ? print_r($_SERVER[$k]) : ''?></td>
+			<td><?php echo $v?></td>
 		</tr>
 	<?php }?>
 	</table>
@@ -116,7 +153,7 @@ $(function(){
 	}
 	highlightCurrentLine();
 	
-	$('.backtrace').on('click', '.element-wrap', function(){
+	$('.backtrace').on('click', '.with-code .element-wrap', function(){
 		var $parent = $(this).parent();
 		if($parent.hasClass('act')){
 			$parent.removeClass('act').find('.code-wrap').slideUp();

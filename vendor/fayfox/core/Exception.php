@@ -1,16 +1,22 @@
 <?php
 namespace fayfox\core;
 
-class ErrorException extends \ErrorException{
-	public function __construct($message = '', $code = E_USER_ERROR, $filename = __FILE__, $lineno = __LINE__, $severity = 1, \Exception $previous = null){
-		parent::__construct($message, $code, $severity, $filename, $lineno, $previous);
+/**
+ * 抛出一个异常
+ */
+class Exception extends \Exception{
+	public $description;
+	
+	public function __construct($message, $description = '', $code = E_USER_ERROR, \Exception $previous = null){
+		parent::__construct($message, $code, $previous);
+		$this->description = $description;
 	}
 	
 	/**
 	 * 判断是否为致命错误
 	 */
 	public static function isFatalError($error){
-		return isset($error['type']) && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING));
+		return isset($error['type']) && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING, E_USER_ERROR));
 	}
 	
 	/**

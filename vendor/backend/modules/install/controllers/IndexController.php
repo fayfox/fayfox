@@ -7,8 +7,15 @@ use fayfox\helpers\String;
 use fayfox\models\Option;
 use fayfox\models\File;
 use fayfox\core\Response;
+use fayfox\core\Db;
+use fayfox\core\Exception;
 
 class IndexController extends InstallController{
+	public function __construct(){
+		parent::__construct();
+		$this->db = Db::getInstance();
+	}
+	
 	public function index(){
 		$this->view->render();
 	}
@@ -98,7 +105,7 @@ class IndexController extends InstallController{
 		$this->view->installed = !!$tbl_user;
 		
 		if($this->session->get('role') != Users::ROLE_SUPERADMIN && $this->view->installed){
-			Response::showError('系统检测到users表已存在，我们将此作为系统数据库已成功安装的依据。<br>系统不允许重复安装，除非您先用超级管理员身份登陆后台！');
+			throw new Exception('系统检测到users表已存在，我们将此作为系统数据库已成功安装的依据。<br>系统不允许重复安装，除非您先用超级管理员身份登陆后台！');
 		}
 	}
 }

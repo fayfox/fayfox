@@ -9,6 +9,7 @@ use fayfox\common\ListView;
 use blog\models\tables\Bills;
 use fayfox\helpers\Html;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class BillController extends AdminController{
 	public function __construct(){
@@ -88,7 +89,7 @@ class BillController extends AdminController{
 			}
 			
 		}else{
-			Response::showError('参数异常');
+			throw new HttpException('参数异常');
 		}
 	}
 	

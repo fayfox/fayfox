@@ -6,6 +6,7 @@ use fayfox\models\tables\Keywords;
 use fayfox\core\Sql;
 use fayfox\common\ListView;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class KeywordController extends AdminController{
 	public function __construct(){
@@ -69,7 +70,7 @@ class KeywordController extends AdminController{
 			
 			$this->view->render();
 		}else{
-			Response::showError('无效的ID');
+			throw new HttpException('无效的ID', 500);
 		}
 	}
 	

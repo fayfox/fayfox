@@ -4,8 +4,14 @@ namespace backend\modules\tools\controllers;
 use backend\library\ToolsController;
 use fayfox\core\Response;
 use fayfox\helpers\SqlHelper;
+use fayfox\core\Db;
 
 class DbCompareController extends ToolsController{
+	/**
+	 * @var Db
+	 */
+	public $db;
+	
 	/**
 	 * 右侧数据库配置项
 	 */
@@ -27,6 +33,8 @@ class DbCompareController extends ToolsController{
 
 		//登陆检查，仅超级管理员可访问本模块
 		$this->isLogin();
+		
+		$this->db = Db::getInstance();
 		
 		if($this->uri->router != 'tools/db-compare/index'){
 			if(!$this->db_config = $this->session->get('dbcompare')){

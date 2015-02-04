@@ -4,7 +4,7 @@ namespace youdao\modules\frontend\controllers;
 use youdao\library\FrontController;
 use fayfox\models\tables\Posts;
 use fayfox\helpers\String;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class CaseController extends FrontController{
 	public $layout_template = 'inner';
@@ -53,7 +53,7 @@ class CaseController extends FrontController{
 			$this->layout->keywords = $post['seo_keywords'] ? $post['seo_keywords'] : $post['title'];
 			$this->layout->description = $post['seo_description'] ? $post['seo_description'] : $post['abstract'];
 		}else{
-			Response::showError('页面不存在');
+			throw new HttpException('页面不存在');
 		}
 	
 		$this->layout->subtitle = '成功案例';

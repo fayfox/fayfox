@@ -19,7 +19,7 @@ class WidgetController extends ToolsController{
 					));
 					die;
 				}else{
-					Response::showError('Widget不存在或已被删除', 404);
+					throw new HttpException('Widget不存在或已被删除');
 				}
 			}
 			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
@@ -34,7 +34,7 @@ class WidgetController extends ToolsController{
 						'message'=>'Widget方法不存在',
 					));
 				}else{
-					Response::showError('Widget方法不存在', 404);
+					throw new HttpException('Widget方法不存在');
 				}
 			}
 		}else{
@@ -44,7 +44,7 @@ class WidgetController extends ToolsController{
 					'message'=>'不完整的请求',
 				));
 			}else{
-				Response::showError('不完整的请求');
+				throw new HttpException('不完整的请求', 500);
 			}
 		}
 	}
@@ -64,7 +64,7 @@ class WidgetController extends ToolsController{
 						));
 						die;
 					}else{
-						Response::showError('Widget不存在或已被删除', 404);
+						throw new HttpException('Widget不存在或已被删除');
 					}
 				}
 				$widget_obj->index(json_decode($widget_config['options'], true));
@@ -76,7 +76,7 @@ class WidgetController extends ToolsController{
 					'message'=>'不完整的请求',
 				));
 			}else{
-				Response::showError('不完整的请求');
+				throw new HttpException('不完整的请求', 500);
 			}
 		}
 	}

@@ -10,6 +10,7 @@ use fayfox\common\ListView;
 use fayfox\models\File;
 use fayfox\core\Response;
 use fayfox\models\Setting;
+use fayfox\core\HttpException;
 
 class WidgetController extends AdminController{
 	public function __construct(){
@@ -104,7 +105,7 @@ class WidgetController extends AdminController{
 					));
 					die;
 				}else{
-					Response::showError('Widget不存在或已被删除', 404);
+					throw new HttpException('Widget不存在或已被删除');
 				}
 			}
 			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
@@ -119,7 +120,7 @@ class WidgetController extends AdminController{
 						'message'=>'Widget方法不存在',
 					));
 				}else{
-					Response::showError('Widget方法不存在', 404);
+					throw new HttpException('Widget方法不存在');
 				}
 			}
 		}else{
@@ -129,7 +130,7 @@ class WidgetController extends AdminController{
 					'message'=>'不完整的请求',
 				));
 			}else{
-				Response::showError('不完整的请求');
+				throw new HttpException('不完整的请求');
 			}
 		}
 	}
@@ -147,7 +148,7 @@ class WidgetController extends AdminController{
 				'id'=>$widget_instance_id,
 			)));
 		}else{
-			Response::showError('不完整的请求');
+			throw new HttpException('不完整的请求');
 		}
 	}
 	

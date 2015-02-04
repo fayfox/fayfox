@@ -7,11 +7,33 @@ use fayfox\core\Cache;
 use fayfox\core\Session;
 use fayfox\core\Config;
 use fayfox\core\Db;
+use fayfox\core\Exception;
 
 /**
  * 超级类，可以在任何地方获取各种方法
  */
 class F{
+    /**
+     * 自动加载类库
+     * @param String $class_name 类名
+     */
+    public static function autoload($class_name){
+        if(strpos($class_name, 'fayfox') === 0 || strpos($class_name, 'backend') === 0 ){
+            $file_path = str_replace('\\', '/', SYSTEM_PATH.$class_name.'.php');
+            if(file_exists($file_path)){
+                require $file_path;
+                return;
+            }
+        }else if(strpos($class_name, APPLICATION) === 0){
+            $file_path = str_replace('\\', '/', APPLICATION_PATH.substr($class_name, strlen(APPLICATION)).'.php');
+            if(file_exists($file_path)){
+                require $file_path;
+                return;
+            }
+        }
+        throw new Exception("Class '{$class_name}' not found");
+    }
+    
 	/**
 	 * 获取当前Controller实例
 	 * @return Controller

@@ -3,8 +3,14 @@ namespace backend\modules\install\controllers;
 
 use backend\library\InstallController;
 use fayfox\models\Category;
+use fayfox\core\Db;
 
 class DbController extends InstallController{
+	public function __construct(){
+		parent::__construct();
+		$this->db = Db::getInstance();
+	}
+	
 	public function createTables(){
 		$prefix = $this->config->get('db.table_prefix');
 		$sql = file_get_contents(dirname(__FILE__).'/../data/tables.sql');

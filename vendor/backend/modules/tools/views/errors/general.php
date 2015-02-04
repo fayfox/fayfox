@@ -1,5 +1,5 @@
 <?php 
-use fayfox\helpers\RequestHelper;
+use fayfox\helpers\Backtrace;
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,8 +26,8 @@ p, pre, code, .track-table{margin:12px 15px 12px 15px;}
 	<div id="container">
 		<h1><?php echo $heading?></h1>
 		<div class="content"><?php echo $message?></div>
-		<?php if(F::app()->config->get('debug')){
-			RequestHelper::renderBacktrace(isset($_backtrace) ? $_backtrace : null);
+		<?php if(F::app()->config->get('environment') == 'development'){
+			Backtrace::render(isset($_backtrace) ? $_backtrace : null);
 		}?>
 	</div>
 </body>

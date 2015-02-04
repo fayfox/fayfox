@@ -4,7 +4,7 @@ namespace siwi\modules\user\controllers;
 use siwi\library\UserController;
 use fayfox\models\tables\Files;
 use fayfox\models\File;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class FileController extends UserController{
 	public function __construct(){
@@ -22,7 +22,7 @@ class FileController extends UserController{
 		}else if($target == 'avatar'){
 			$type = Files::TYPE_AVATAR;
 		}else{
-			Response::showError('参数异常');
+			throw new HttpException('参数异常', 500);
 		}
 		
 		$private = !!$this->input->get('p');

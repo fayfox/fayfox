@@ -11,6 +11,7 @@ use fayfox\models\Category;
 use fayfox\core\Sql;
 use fayfox\common\ListView;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class PostPropController extends AdminController{
 	public function __construct(){
@@ -25,7 +26,7 @@ class PostPropController extends AdminController{
 			'id = ?'=>$cat_id,
 		), 'title');
 		if(!$cat){
-			Response::showError('所选分类不存在', '404', 404);
+			throw new HttpException('所选分类不存在');
 		}
 		
 		$this->form()->setModel(Props::model())
@@ -42,7 +43,7 @@ class PostPropController extends AdminController{
 	
 	public function create(){
 		if(!$this->input->post()){
-			Response::showError('参数不完整', 200, '异常访问');
+			throw new HttpException('无数据提交', 500);
 		}
 		
 		if($this->form()->setModel(Props::model())->check()){
@@ -90,7 +91,7 @@ class PostPropController extends AdminController{
 		$prop = Prop::model()->get($prop_id, Props::TYPE_POST_CAT);
 
 		if(!$prop){
-			Response::showError('所选文章分类属性不存在', '404', 404);
+			throw new HttpException('所选文章分类属性不存在');
 		}
 		$this->form()->setData($prop);
 		$this->view->prop = $prop;

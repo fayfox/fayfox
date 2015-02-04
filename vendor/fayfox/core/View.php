@@ -140,7 +140,7 @@ class View extends FBase{
 				}else if(file_exists(BACKEND_PATH.$layout_relative_path)){
 					$layout_path = BACKEND_PATH.$layout_relative_path;
 				}else{
-					Response::showError('Layout文件不存在');
+					throw new Exception("Layout file \"{$layout_relative_path}\" not found");
 				}
 			}
 		}
@@ -183,6 +183,11 @@ class View extends FBase{
 			return $content;
 		}else{
 			echo $content;
+			//自动输出debug信息
+			if($this->config('debug') || $this->config('environment') == 'development'){
+			    $this->renderPartial('common/_debug');
+			}
+			
 			return null;
 		}
 	}

@@ -6,8 +6,8 @@ use fayfox\models\File;
 use fayfox\models\tables\Files;
 use fayfox\helpers\Image;
 use fayfox\helpers\SecurityCode;
-use fayfox\core\Response;
 use fayfox\core\Validator;
+use fayfox\core\HttpException;
 
 class FileController extends Controller{
 	public function pic(){
@@ -132,10 +132,10 @@ class FileController extends Controller{
 		$dh = $this->input->get('dh', 'intval', 0);
 		//选中部分的宽度
 		$w = $this->input->get('w', 'intval');
-		if(!$w)Response::showError('不完整的请求');
+		if(!$w)throw new HttpException('不完整的请求', 500);
 		//选中部分的高度
 		$h = $this->input->get('h', 'intval');
-		if(!$h)Response::showError('不完整的请求');
+		if(!$h)throw new HttpException('不完整的请求', 500);
 		
 		if($file !== false){
 			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);
@@ -233,7 +233,7 @@ class FileController extends Controller{
 			if($file = Files::model()->find($file_id)){
 				if(substr($file['file_path'], 0, 4) == './..'){
 					//私有文件不允许在此方法下载
-					Response::showError('文件不存在', 404, 404);
+					throw new HttpException('文件不存在');
 				}
 				Files::model()->inc($file_id, 'downloads', 1);
 				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
@@ -255,10 +255,10 @@ class FileController extends Controller{
 				}
 				die($data);
 			}else{
-				Response::showError('文件不存在', 404, 404);
+				throw new HttpException('文件不存在');
 			}
 		}else{
-			Response::showError('参数不正确');
+			throw new HttpException('参数不正确', 500);
 		}
 	}
 }

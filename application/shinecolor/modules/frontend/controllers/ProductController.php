@@ -8,7 +8,7 @@ use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
 use fayfox\models\Post;
 use fayfox\helpers\Html;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class ProductController extends FrontController{
 	public function __construct(){
@@ -74,7 +74,7 @@ class ProductController extends FrontController{
 		$post = Post::model()->get($id);
 		
 		if(!$post){
-			Response::showError('404页面不存在', 404);
+			throw new HttpException('文章不存在');
 		}
 		
 		$this->layout->breadcrumbs = array(

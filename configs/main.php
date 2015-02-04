@@ -12,22 +12,23 @@ return array(
 	 * http://www.example.com/fayfox/
 	 * 注意不要忘了最后的斜杠
 	 */
-	//'base_url'=>'http://'.$_SERVER['HTTP_HOST'].'/fayfox/',
+	//'base_url'=>'http://55.fayfox.com/fayfox/',
 	
 	/*
 	 * 数据库参数
 	 */
 	'db'=>array(
-// 		'host'=>'112.124.64.22',					//数据库服务器
-// 		'user'=>'framework',							//用户名
-// 		'password'=>'FhvDA8YznCMf7KCS',							//密码
-// 		'dbname'=>'fayfox_develop',						//数据库名
+		'host'=>'112.124.64.22',				//数据库服务器
+		'user'=>'framework',					//用户名
+		'password'=>'FhvDA8YznCMf7KCS',			//密码
+		'dbname'=>'fayfox_develop',				//数据库名
 		'host'=>'localhost',					//数据库服务器
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
-		'dbname'=>'fayfox_temp',						//数据库名
+		'port'=>3306,							//端口
+		'dbname'=>'fayfox_temp',				//数据库名
 		'charset'=>'utf8',						//数据库编码方式
-		'table_prefix'=>'fayfox_',					//数据库表前缀
+		'table_prefix'=>'fayfox_',				//数据库表前缀
 	),
 	
 	/*
@@ -39,7 +40,7 @@ return array(
 	 * 默认url后缀
 	 * 可通过config/ext.php配置文件对单独的url再做设置
 	 */
-	'url_suffix'=>'jsp',
+	'url_suffix'=>'',
 	
 	/*
 	 * 运行环境，设为development则开启所有报错，设为production则关闭所有报错
@@ -47,10 +48,10 @@ return array(
 	'environment'=>'development',
 	
 	/*
-	 * 若系统环境为development且debug为true，则任何报错（例如：Notice）都会导致页面执行终端
-	 * 默认为false
+	 * 严格的报错模式
+	 * 若系统环境为development且debug为true，则任何报错（例如：Notice）都会导致页面执行中断
 	 */
-	'debug'=>true,
+	'debug'=>false,
 	
 	/*
 	 * 是否启用钩子，视application而定

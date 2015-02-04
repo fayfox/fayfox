@@ -14,6 +14,7 @@ use fayfox\models\Prop;
 use fayfox\models\tables\Actionlogs;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
+use fayfox\core\HttpException;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -204,7 +205,7 @@ class UserController extends AdminController{
 			), 'id');
 			$this->view->user = User::model()->get($user['id']);
 		}else{
-			Response::showError('参数不完整');
+			throw new HttpException('参数不完整', 500);
 		}
 		
 		$this->layout->subtitle = "用户 - {$this->view->user['username']}";
@@ -226,7 +227,7 @@ class UserController extends AdminController{
 					'message'=>'指定的用户ID不存在',
 				));
 			}else{
-				Response::showError('指定的用户ID不存在');
+				throw new HttpException('指定的用户ID不存在');
 			}
 		}
 		Users::model()->update($this->input->post(), $id, true);

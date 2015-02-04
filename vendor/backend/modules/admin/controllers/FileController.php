@@ -9,7 +9,7 @@ use fayfox\core\Sql;
 use fayfox\common\ListView;
 use fayfox\helpers\Image;
 use fayfox\models\Qiniu;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\core\Validator;
 
 class FileController extends AdminController{
@@ -128,10 +128,10 @@ class FileController extends AdminController{
 				}
 				die($data);
 			}else{
-				Response::showError('文件不存在', 404, 404);
+				throw new HttpException('文件不存在');
 			}
 		}else{
-			Response::showError('参数不正确');
+			throw new HttpException('参数不正确', 500);
 		}
 	}
 
@@ -250,10 +250,10 @@ class FileController extends AdminController{
 		$dh = $this->input->get('dh', 'intval', 0);
 		//选中部分的宽度
 		$w = $this->input->get('w', 'intval');
-		if(!$w)Response::showError('不完整的请求');
+		if(!$w)throw new HttpException('不完整的请求', 500);
 		//选中部分的高度
 		$h = $this->input->get('h', 'intval');
-		if(!$h)Response::showError('不完整的请求');
+		if(!$h)throw new HttpException('不完整的请求', 500);
 		
 		if($file !== false){
 			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);

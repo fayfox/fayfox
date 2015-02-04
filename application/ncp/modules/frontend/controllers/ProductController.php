@@ -7,7 +7,7 @@ use fayfox\core\Sql;
 use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
 use fayfox\models\Post;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\models\Prop;
 use fayfox\helpers\ArrayHelper;
 use fayfox\models\tables\PropValues;
@@ -104,7 +104,7 @@ class ProductController extends FrontController{
 			))->render();
 			
 		}else{
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 	}
 	
@@ -112,7 +112,7 @@ class ProductController extends FrontController{
 		$id = $this->input->get('id', 'intval');
 		
 		if(!$id || !$post = Post::model()->get($id, '', 'product', true)){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		Posts::model()->update(array(
 			'last_view_time'=>$this->current_time,

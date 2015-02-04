@@ -8,6 +8,7 @@ use fayfox\models\Email;
 use fayfox\helpers\String;
 use fayfox\core\Response;
 use fayfox\core\Validator;
+use fayfox\core\HttpException;
 
 class LoginController extends FrontController{
 	public function index(){
@@ -131,10 +132,10 @@ class LoginController extends FrontController{
 					}
 				}
 			}else{
-				Response::showError('链接地址参数不存在或已过期，<a href="'.$this->view->url('login/forgot-password').'">点此</a>重新发送找回密码邮件');
+				throw new HttpException('链接地址参数不存在或已过期，<a href="'.$this->view->url('login/forgot-password').'">点此</a>重新发送找回密码邮件');
 			}
 		}else{
-			Response::showError('异常的访问参数');
+			throw new HttpException('异常的访问参数');
 		}
 		
 		$this->view->render();

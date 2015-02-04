@@ -38,8 +38,5 @@ echo Option::get('sitename')?></title>
 	</div>
 </div>
 <?php include '_footer.php'?>
-<?php if(F::session()->get('role', 0, F::config()->get('session_namespace').'_admin') == Users::ROLE_SUPERADMIN){
-	$this->renderPartial('common/_debug');
-}?>
 </body>
 </html>

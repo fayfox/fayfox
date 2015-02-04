@@ -8,7 +8,7 @@ use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
 use fayfox\models\Post;
 use fayfox\models\tables\Messages;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use siwi\helpers\FriendlyLink;
 
 class MaterialController extends FrontController{
@@ -89,7 +89,7 @@ class MaterialController extends FrontController{
 		$post = Post::model()->get($id, 'nav,user');
 		
 		if(!$post){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		Posts::model()->inc($post['id'], 'views', 1);//阅读数
 		$this->view->post = $post;

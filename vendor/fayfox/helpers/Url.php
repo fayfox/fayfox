@@ -6,9 +6,9 @@ class Url{
 	/**
 	 * combineURL
 	 * 拼接url
-	 * @param string $baseURL   基于的url
-	 * @param array  $keysArr   参数列表数组
-	 * @return string           返回拼接的url
+	 * @param string $baseURL 基于的url
+	 * @param array $keysArr 参数列表数组
+	 * @return string 返回拼接的url
 	 */
 	public static function combineURL($baseURL,$keysArr){
 		$combined = $baseURL."?";
@@ -27,8 +27,8 @@ class Url{
 	/**
 	 * get_contents
 	 * 服务器通过get请求获得内容
-	 * @param string $url       请求的url,拼接后的
-	 * @return string           请求返回的内容
+	 * @param string $url 请求的url,拼接后的
+	 * @return string 请求返回的内容
 	 */
 	public static function get_contents($url){
 		if (ini_get("allow_url_fopen") == "1") {
@@ -48,9 +48,9 @@ class Url{
 	/**
 	 * get
 	 * get方式请求资源
-	 * @param string $url     基于的baseUrl
-	 * @param array $keysArr  参数列表数组
-	 * @return string         返回的资源内容
+	 * @param string $url 基于的baseUrl
+	 * @param array $keysArr 参数列表数组
+	 * @return string 返回的资源内容
 	 */
 	public static function get($url, $keysArr){
 		$combined = self::combineURL($url, $keysArr);

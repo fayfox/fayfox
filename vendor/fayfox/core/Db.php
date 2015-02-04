@@ -2,11 +2,13 @@
 namespace fayfox\core;
 
 use fayfox\core\db\Intact;
+use fayfox\helpers\SqlHelper;
 
 class Db extends FBase{
 	private $_host;
 	private $_user;
 	private $_pwd;
+	private $_port = 3306;
 	private $_dbname;
 	private $_charset;
 	private $_conn;
@@ -45,6 +47,7 @@ class Db extends FBase{
 		$this->_host = isset($config['host']) ? $config['host'] : $db_config['host'];
 		$this->_user = isset($config['user']) ? $config['user'] : $db_config['user'];
  		$this->_pwd = isset($config['password']) ? $config['password'] : $db_config['password'];
+ 		$this->_port = !empty($config['port']) ? $config['port'] : (!empty($db_config['port']) ? $db_config['port'] : 3306);
 		$this->_dbname = isset($config['dbname']) ? $config['dbname'] : $db_config['dbname'];
 		$this->_charset = isset($config['charset']) ? $config['charset'] : $db_config['charset'];
 		$this->_table_prefix = isset($config['table_prefix']) ? $config['table_prefix'] : $db_config['table_prefix'];
@@ -54,11 +57,12 @@ class Db extends FBase{
 	
 	public function getConn(){
 		if(!$this->_conn){
-			$dsn = "mysql:host={$this->_host};dbname={$this->_dbname};charset={$this->_charset}";
+			$dsn = "mysql:host={$this->_host};port={$this->_port};dbname={$this->_dbname};charset={$this->_charset}";
 			try {
 				$this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
 			}catch(\PDOException $e){
-				Response::showError($e->getMessage());
+				$handler = new ErrorHandler();
+				$handler->handleException($e);
 			}
 			$this->_conn->exec("SET NAMES {$this->_charset}");
 		}
@@ -71,16 +75,12 @@ class Db extends FBase{
 	 * @param String $sql
 	 */
 	public function execute($sql, $params = array()){
-		if($this->_debug){
-			$start_time = microtime(true);
-		}
-		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql);
-		$sth->execute($params) or $this->error($sth->errorInfo(), $sql);
+		$start_time = microtime(true);
+		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
+		$sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
 		$sqltype = strtolower(substr(trim($sql), 0, 6));
 		self::$_count++;
-		if($this->_debug){
-			$this->logSql($sql, $params, microtime(true) - $start_time);
-		}
+		$this->logSql($sql, $params, microtime(true) - $start_time);
 		if($sqltype == 'insert'){
 			return $this->_conn->lastInsertId();
 		}else{
@@ -102,15 +102,11 @@ class Db extends FBase{
 		}else{
 			$result_style = \PDO::FETCH_ASSOC;
 		}
-		if($this->_debug){
-			$start_time = microtime(true);
-		}
-		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql);
-		$sth->execute($params) or $this->error($sth->errorInfo(), $sql);
+		$start_time = microtime(true);
+		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
+		$sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
 		self::$_count++;
-		if($this->_debug){
-			$this->logSql($sql, $params, microtime(true) - $start_time);
-		}
+		$this->logSql($sql, $params, microtime(true) - $start_time);
 		return $sth->fetchAll($result_style);
 	}
 	
@@ -121,16 +117,12 @@ class Db extends FBase{
 	 * @param array $params
 	 */
 	public function fetchCol($col, $sql, $params = array()){
-		if($this->_debug){
-			$start_time = microtime(true);
-		}
-		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql);
-		$sth->execute($params) or $this->error($sth->errorInfo(), $sql);
+		$start_time = microtime(true);
+		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
+		$sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
 		self::$_count++;
 		$result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-		if($this->_debug){
-			$this->logSql($sql, $params, microtime(true) - $start_time);
-		}
+		$this->logSql($sql, $params, microtime(true) - $start_time);
 		$return = array();
 		foreach($result as $r){
 			$return[] = $r[$col];
@@ -152,15 +144,11 @@ class Db extends FBase{
 		}else{
 			$result_style = \PDO::FETCH_ASSOC;
 		}
-		if($this->_debug){
-			$start_time = microtime(true);
-		}
-		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql);
-		$sth->execute($params) or $this->error($sth->errorInfo(), $sql);
+		$start_time = microtime(true);
+		$sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
+		$sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
 		self::$_count++;
-		if($this->_debug){
-			$this->logSql($sql, $params, microtime(true) - $start_time);
-		}
+		$this->logSql($sql, $params, microtime(true) - $start_time);
 		return $sth->fetch($result_style);
 	}
 	
@@ -185,7 +173,7 @@ class Db extends FBase{
 	
 	public function update($table, $data, $condition = false){
 		if(!is_array($data) || empty($data)){
-			Response::showError('Db::update语句更新数据不能为空');
+			throw new Exception('Db::update语句更新数据不能为空');
 		}
 		
 		$set = array();
@@ -307,11 +295,11 @@ class Db extends FBase{
 		);
 	}
 	
-	public function error($message, $sql = ''){
-		\F::app()->view->_backtrace = array_slice(debug_backtrace(false), 1);
-		if($this->config('environment') == 'development'){
-			Response::showError(pr($message, true, true) . '<code>'.$sql.'</code>', 500, '数据库错误');
+	public function error($message, $sql = '', $params = array()){
+		if(is_array($message)){
+			$message = implode(' - ', $message);
 		}
+		throw new Exception($message, '<code>'.SqlHelper::nice($sql, $params).'</code>');
 	}
 	
 	public function getCount(){
@@ -319,9 +307,7 @@ class Db extends FBase{
 	}
 	
 	private function logSql($sql, $params = array(), $time){
-		if($this->_debug){
-			self::$_sqls[] = array($sql, $params, $time);
-		}
+		self::$_sqls[] = array($sql, $params, $time);
 	}
 	
 	public function getSqlLogs(){

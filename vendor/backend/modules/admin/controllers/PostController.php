@@ -20,6 +20,7 @@ use fayfox\models\Post;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
 use fayfox\core\Hook;
+use fayfox\core\HttpException;
 
 class PostController extends AdminController{
 	public $boxes = array(
@@ -60,7 +61,7 @@ class PostController extends AdminController{
 		$cat = Category::model()->get($cat_id, 'title,left_value,right_value');
 		
 		if(!$cat){
-			Response::showError('所选分类不存在');
+			throw new HttpException('所选分类不存在');
 		}
 		
 		//hook
@@ -299,7 +300,7 @@ class PostController extends AdminController{
 		
 		$post_id = intval($this->input->get('id', 'intval'));
 		if(empty($post_id)){
-			Response::showError('参数不完整', 404, '404');
+			throw new HttpException('参数不完整', 500);
 		}
 		
 		//所有附加属性
@@ -509,7 +510,7 @@ class PostController extends AdminController{
 			
 			$this->view->render();
 		}else{
-			Response::showError('无效的文章ID');
+			throw new HttpException('无效的文章ID');
 		}
 	}
 	

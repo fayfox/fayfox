@@ -9,6 +9,7 @@ use fayfox\common\ListView;
 use fayfox\models\tables\ExamPapers;
 use fayfox\helpers\String;
 use fayfox\models\tables\ExamExams;
+use fayfox\core\HttpException;
 
 class PaperController extends UserController{
 	public function index(){
@@ -36,7 +37,7 @@ class PaperController extends UserController{
 	public function item(){
 		$id = $this->input->get('id', 'intval');
 		if(!$id){
-			Response::showError('您访问的页面不存在', 404, '404');
+			throw new HttpException('页面不存在');
 		}
 		
 		$this->view->paper = Exam::model()->getPaper($id);

@@ -5,7 +5,7 @@ use siwi\library\FrontController;
 use fayfox\helpers\String;
 use fayfox\models\tables\Users;
 use fayfox\helpers\RequestHelper;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 use fayfox\core\Validator;
 
 class RegisterController extends FrontController{
@@ -41,7 +41,7 @@ class RegisterController extends FrontController{
 				
 				//User::model()->userLogin($username, $this->input->post('password'));
 			}else{
-				Response::showError('参数异常');
+				throw new HttpException('参数异常', 500);
 			}
 			
 		}

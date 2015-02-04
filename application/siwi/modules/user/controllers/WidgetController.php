@@ -3,7 +3,7 @@ namespace siwi\modules\user\controllers;
 
 use siwi\library\UserController;
 use fayfox\helpers\String;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class WidgetController extends UserController{
 	//加载一个widget
@@ -17,7 +17,7 @@ class WidgetController extends UserController{
 						'message'=>'Widget不存在或已被删除',
 					));
 				}else{
-					Response::showError('Widget不存在或已被删除', 404);
+					throw new HttpException('Widget不存在或已被删除', 404);
 				}
 			}
 			$action = String::hyphen2case($this->input->get('action', 'trim', 'index'), false);
@@ -32,7 +32,7 @@ class WidgetController extends UserController{
 						'message'=>'Widget方法不存在',
 					));
 				}else{
-					Response::showError('Widget方法不存在', 404);
+					throw new HttpException('Widget方法不存在', 404);
 				}
 			}
 		}else{
@@ -42,7 +42,7 @@ class WidgetController extends UserController{
 					'message'=>'不完整的请求',
 				));
 			}else{
-				Response::showError('不完整的请求');
+				throw new HttpException('不完整的请求');
 			}
 		}
 	}

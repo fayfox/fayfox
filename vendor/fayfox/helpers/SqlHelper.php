@@ -15,15 +15,15 @@ class SqlHelper{
 		
 		$pattern = array();
 		foreach($keywords as $k){
-			$pattern[] = "/({$k} )/";
+			$pattern[] = "/({$k} )/i";
 		}
 		$sql = preg_replace($pattern, '<span class="color-blue">$1</span>', $sql);
 		
 		$sql = preg_replace(array(
-			'/^SELECT(.*)/',
-			'/^INSERT(.*)/',
-			'/^DELETE(.*)/',
-			'/^UPDATE(.*)/',
+			'/^SELECT(.*)/i',
+			'/^INSERT(.*)/i',
+			'/^DELETE(.*)/i',
+			'/^UPDATE(.*)/i',
 		), array(
 			'<span class="color-blue">SELECT</span>$1',
 			'<span class="color-green">INSERT</span>$1',

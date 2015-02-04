@@ -338,6 +338,9 @@ class File extends Model{
 	 * @param int $adjacents 前后行数
 	 */
 	public static function getFileLine($file, $line, $adjacents = 0){
+		if(!file_exists($file)){
+			return '';
+		}
 		$file = file($file);
 		if($adjacents){
 			$offset = $line - $adjacents - 1;//开始截取位置

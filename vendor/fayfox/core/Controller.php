@@ -37,10 +37,6 @@ class Controller{
 	 */
 	public $plugin;
 	/**
-	 * @var Db
-	 */
-	public $db;
-	/**
 	 * @var FWidget
 	 */
 	public $widget;
@@ -77,7 +73,6 @@ class Controller{
 		$this->flash = new Flash();
 		$this->plugin = new Plugin();
 		$this->config = Config::getInstance();
-		$this->db = Db::getInstance();
 		$this->current_time = time();
 		$this->uri = Uri::getInstance();
 		$this->widget = new FWidget();

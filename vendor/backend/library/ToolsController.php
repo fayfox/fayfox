@@ -6,6 +6,7 @@ use fayfox\core\Uri;
 use fayfox\models\tables\Users;
 use fayfox\models\File;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class ToolsController extends Controller{
 	public $layout_template = 'admin';
@@ -30,7 +31,7 @@ class ToolsController extends Controller{
 			Response::redirect('admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
 		}
 		if($this->session->get('role') != Users::ROLE_SUPERADMIN){
-			Response::showError('仅超级管理员可访问此模块');
+			throw new HttpException('仅超级管理员可访问此模块', 500);
 		}
 		//设置当前用户id
 		$this->current_user = $this->session->get('id');

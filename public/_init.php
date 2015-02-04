@@ -1,7 +1,6 @@
 <?php
 if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-use fayfox\core\Response;
 use fayfox\core\ErrorHandler;
 
 define('DS', DIRECTORY_SEPARATOR);
@@ -13,27 +12,10 @@ define('MODULE_PATH', realpath(APPLICATION_PATH . 'modules') . DS);
 //包含基础文件
 require SYSTEM_PATH.'F.php';
 
-/**
- * 自动加载类库
- * @param String $class_name 类名
- */
-function __autoload($class_name){
-	if(strpos($class_name, 'fayfox') === 0 || strpos($class_name, 'backend') === 0 ){
-		$file_path = str_replace('\\', '/', SYSTEM_PATH.$class_name.'.php');
-		if(file_exists($file_path)){
-			require $file_path;
-			return;
-		}
-	}else if(strpos($class_name, APPLICATION) === 0){
-		$file_path = str_replace('\\', '/', APPLICATION_PATH.substr($class_name, strlen(APPLICATION)).'.php');
-		if(file_exists($file_path)){
-			require $file_path;
-			return;
-		}
-	}
-	Response::showError($class_name.'类文件不存在');
-}
+//注册自动加载
+spl_autoload_register(array('F', 'autoload'));
 
+//捕获报错
 $error_handler = new ErrorHandler();
 $error_handler->register();
 

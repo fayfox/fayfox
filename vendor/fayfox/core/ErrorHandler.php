@@ -16,7 +16,7 @@ class ErrorHandler extends FBase{
 		ini_set('display_errors', false);
 		set_exception_handler(array($this, 'handleException'));
 		set_error_handler(array($this, 'handleError'));
-		register_shutdown_function([$this, 'handleFatalError']);
+		register_shutdown_function(array($this, 'handleFatalError'));
 	}
 	
 	/**
@@ -25,16 +25,24 @@ class ErrorHandler extends FBase{
 	 */
 	public function handleException($exception){
 		if($exception instanceof HttpException){
+			//Http异常
+			Response::setStatusHeader($exception->statusCode);
 			//404, 500等http错误
-			if($this->config('debug') && $exception->statusCode != 200){
+			if($this->config('environment') == 'production'){
+				if($exception->statusCode == 404){
+					$this->render404();
+				}else{
+					$this->render500();
+				}
+			}else{
+				//环境非production，显示debug页面
 				$this->renderDebug($exception);
 			}
-			if($exception->statusCode == 404){
-				$this->render404();
-			}else if($exception->statusCode == 500){
+		}else{
+			if($this->config('environment') == 'production'){
 				$this->render500();
 			}else{
-				$this->renderError($exception);
+				$this->renderDebug($exception);
 			}
 		}
 	}
@@ -43,6 +51,10 @@ class ErrorHandler extends FBase{
 	 * 处理php报错
 	 */
 	public function handleError($code, $message, $file, $line){
+		if(error_reporting() == 0){
+			//例如@屏蔽报错的时候，error_reporting()会返回0
+			return;
+		}
 		$exception = new ErrorException($message, $code, $code, $file, $line);
 		if($this->config('debug')){
 			//debug模式，强制执行debug报错并停止程序执行
@@ -60,11 +72,10 @@ class ErrorHandler extends FBase{
 		if(ErrorException::isFatalError($error)){
 			$exception = new ErrorException($error['message'], $error['type'], $error['type'], $error['file'], $error['line']);
 			
-			if($this->config('debug')){
-				//debug模式，强制执行debug报错并停止程序执行
-				$this->renderDebug($exception);
-			}else{
+			if($this->config('environment') == 'production'){
 				$this->render500();
+			}else{
+				$this->renderDebug($exception);
 			}
 			die;
 		}
@@ -82,7 +93,8 @@ class ErrorHandler extends FBase{
 	/**
 	 * @param ErrorException $exception
 	 */
-	public function renderDebug($exception){
+	protected function renderDebug($exception){
+		Response::setStatusHeader(500);
 		//清空缓冲区
 		$this->clearOutput();
 		
@@ -95,7 +107,7 @@ class ErrorHandler extends FBase{
 	/**
 	 * @param ErrorException $exception
 	 */
-	public function renderError($exception){
+	protected function renderError($exception){
 		echo '//@todo 常规报错:<br>';
 		pr($exception);
 	}
@@ -103,7 +115,7 @@ class ErrorHandler extends FBase{
 	/**
 	 * @param ErrorException $exception
 	 */
-	public function renderPHPError($exception){
+	protected function renderPHPError($exception){
 		$this->app->view->renderPartial('errors/php', array(
 			'level'=>$exception->getLevel(),
 			'message'=>$exception->getMessage(),
@@ -115,7 +127,7 @@ class ErrorHandler extends FBase{
 	/**
 	 * 显示404页面（不包含错误信息）
 	 */
-	public function render404(){
+	protected function render404(){
 		$this->clearOutput();
 		$this->app->view->renderPartial('errors/404');
 		die;
@@ -124,7 +136,7 @@ class ErrorHandler extends FBase{
 	/**
 	 * 显示500页面（不包含错误信息）
 	 */
-	public function render500(){
+	protected function render500(){
 		$this->clearOutput();
 		$this->app->view->renderPartial('errors/500');
 		die;

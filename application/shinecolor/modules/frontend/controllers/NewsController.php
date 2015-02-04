@@ -8,7 +8,7 @@ use fayfox\models\tables\Posts;
 use fayfox\common\ListView;
 use fayfox\models\Post;
 use fayfox\helpers\Html;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class NewsController extends FrontController{
 	public function __construct(){
@@ -26,7 +26,7 @@ class NewsController extends FrontController{
 		$cat = Category::model()->getByAlias($cat_alias, '*');
 		
 		if(!$cat){
-			Response::showError('404页面不存在', 404);
+			throw new HttpException('404页面不存在');
 		}
 		
 		if($cat['alias'] == 'news'){
@@ -86,7 +86,7 @@ class NewsController extends FrontController{
 		$post = Post::model()->get($id);
 		
 		if(!$post){
-			Response::showError('404页面不存在', 404);
+			throw new HttpException('404页面不存在');
 		}
 		
 		$this->view->children = Category::model()->getAll('news');

@@ -10,6 +10,7 @@ use fayfox\models\Prop;
 use fayfox\core\Sql;
 use fayfox\common\ListView;
 use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class RolePropController extends AdminController{
 	public function __construct(){
@@ -25,7 +26,7 @@ class RolePropController extends AdminController{
 			'deleted = 0',
 		));
 		if(!$role){
-			Response::showError('所选角色不存在');
+			throw new HttpException('所选角色不存在');
 		}
 		
 		$this->form()->setModel(Props::model())
@@ -44,7 +45,7 @@ class RolePropController extends AdminController{
 	
 	public function create(){
 		if(!$this->input->post()){
-			Response::showError('参数不完整', 200, '异常访问');
+			throw new HttpException('无数据提交', 500);
 		}
 		
 		if($this->form()->setModel(Props::model())->check()){
@@ -91,7 +92,7 @@ class RolePropController extends AdminController{
 		$prop = Prop::model()->get($prop_id, Props::TYPE_ROLE);
 
 		if(!$prop){
-			Response::showError('所选角色属性不存在', '404', 404);
+			throw new HttpException('所选角色属性不存在');
 		}
 		$this->form()->setData($prop);
 		

@@ -6,7 +6,7 @@ use fayfox\models\Category;
 use fayfox\core\Sql;
 use fayfox\models\tables\Posts;
 use fayfox\models\Option;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class TeamController extends FrontController{
 	public $layout_template = 'inner';
@@ -68,10 +68,10 @@ class TeamController extends FrontController{
 				$this->layout->keywords = $member['seo_keywords'] ? $member['seo_keywords'] : $member['title'];
 				$this->layout->description = $member['seo_description'] ? $member['seo_description'] : $member['abstract'];
 			}else{
-				Response::showError('您请求的页面不存在', 404, '页面不存在');
+				throw new HttpException('您请求的页面不存在');
 			}
 		}else{
-			Response::showError('您请求的页面不存在', 404, '页面不存在');
+			throw new HttpException('参数不完整');
 		}
 		$this->layout->submenu = array(
 			array(

@@ -8,7 +8,7 @@ use fayfox\helpers\String;
 use fayfox\core\Sql;
 use fayfox\models\tables\Categories;
 use fayfox\common\ListView;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class PostController extends FrontController{
 	public $layout_template = 'inner';
@@ -47,7 +47,7 @@ class PostController extends FrontController{
 			$this->layout->keywords = $post['seo_keywords'] ? $post['seo_keywords'] : $post['title'];
 			$this->layout->description = $post['seo_description'] ? $post['seo_description'] : $post['abstract'];
 		}else{
-			Response::showError('页面不存在');
+			throw new HttpException('页面不存在');
 		}
 		
 		$this->layout->subtitle = '新闻中心';

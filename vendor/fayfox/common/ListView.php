@@ -4,7 +4,7 @@ namespace fayfox\common;
 use fayfox\core\FBase;
 use fayfox\core\Db;
 use fayfox\core\Sql;
-use fayfox\core\Response;
+use fayfox\core\Exception;
 
 class ListView extends FBase{
 	public $currentPage = 1;
@@ -125,7 +125,7 @@ class ListView extends FBase{
 	
 	public function setSql($sql){
 		if(!$sql instanceof Sql){
-			Response::showError('ListView::setSql方法传入的参数必须是Sql类实例');
+			throw new Exception('ListView::setSql方法传入的参数必须是Sql类实例');
 		}
 		$this->sql = $sql->getSql();
 		$this->countSql = $sql->getCountSql();

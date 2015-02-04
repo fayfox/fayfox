@@ -5,7 +5,7 @@ use shinecolor\library\FrontController;
 use fayfox\models\tables\Pages;
 use fayfox\helpers\Html;
 use fayfox\core\Sql;
-use fayfox\core\Response;
+use fayfox\core\HttpException;
 
 class ServiceController extends FrontController{
 	public function __construct(){
@@ -21,13 +21,13 @@ class ServiceController extends FrontController{
 	public function item(){
 		$alias = $this->input->get('alias');
 		if(!$alias){
-			Response::showError('404页面不存在', 404);
+			throw new HttpException('未设置别名');
 		}
 		$page = Pages::model()->fetchRow(array(
 			'alias = ?'=>$alias,
 		));
 		if(!$page){
-			Response::showError('404页面不存在', 404);
+			throw new HttpException('别名不存在');
 		}
 		
 		$this->view->page = $page;
