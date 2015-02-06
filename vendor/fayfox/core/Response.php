@@ -76,7 +76,7 @@ class Response extends FBase{
 	);
 	
 	/**
-	 * 当Exception不好用的时候（比如在异常中又出现异常），用此函数显示错误
+	 * 当Exception不好用的时候，用此函数显示错误
 	 * @param string $message
 	 * @param int $status_code http状态码
 	 * @param string $heading
@@ -92,20 +92,6 @@ class Response extends FBase{
 		));
 		$app->view->_backtrace = debug_backtrace(false);
 		$app->view->renderPartial('errors/general');
-		die;
-	}
-	
-	public static function show404($message, $heading = '您访问的页面不存在'){
-		self::setStatusHeader(404);
-		$app = \F::app();
-		$app || $app = new Controller();
-		$app->view->assign(array(
-			'message'=>$message,
-			'status_code'=>404,
-			'heading'=>$heading,
-		));
-		$app->view->_backtrace = debug_backtrace(false);
-		$app->view->renderPartial('common/error_404');
 		die;
 	}
 	

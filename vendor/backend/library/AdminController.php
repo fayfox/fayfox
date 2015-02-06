@@ -150,7 +150,7 @@ class AdminController extends Controller{
 			'directory'=>'file',
 			'sub'=>array(
 				array('label'=>'所有文件','router'=>'admin/file/index',),
-				array('label'=>'上传文件','router'=>'admin/file/upload',),
+				array('label'=>'上传文件','router'=>'admin/file/do-upload',),
 			),
 			'icon'=>'icon-files',
 		),

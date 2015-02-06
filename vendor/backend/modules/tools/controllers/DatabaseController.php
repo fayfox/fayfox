@@ -119,7 +119,7 @@ class DatabaseController extends ToolsController{
 		}
 		$this->view->table_name = $table_name;
 		
-		$content = $this->view->renderPartial('getmodel', array(), true);
+		$content = $this->view->renderPartial('getmodel', array(), -1, true);
 		
 		if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 			header('Content-Type: "application/x-httpd-php"');

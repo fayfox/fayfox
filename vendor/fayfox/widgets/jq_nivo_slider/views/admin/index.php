@@ -76,7 +76,7 @@ var widget_slides = {
 			container: 'drag_drop_area',
 			drop_element: "drag_drop_area",
 			max_file_size : '2mb',
-			url : system.url("admin/file/do_upload", {'t':'widget'}),
+			url : system.url("admin/file/upload", {'t':'widget'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

@@ -93,3 +93,9 @@ INSERT INTO `{{$prefix}}actions` VALUES ('92', '分类列表', 'admin/exam-paper
 INSERT INTO `{{$prefix}}actions` VALUES ('93', '添加分类', 'admin/exam-paper/cat-create', '117', '0', '92');
 INSERT INTO `{{$prefix}}actions` VALUES ('94', '编辑分类', 'admin/exam-paper/cat-edit', '117', '0', '92');
 INSERT INTO `{{$prefix}}actions` VALUES ('95', '删除分类', 'admin/exam-paper/cat-remove', '117', '0', '92');
+INSERT INTO `{{$prefix}}actions` VALUES ('96', '上传', 'admin/file/do-upload', '102', '0', '0');
+INSERT INTO `{{$prefix}}actions` VALUES ('97', '列表', 'admin/file/index', '102', '0', '0');
+INSERT INTO `{{$prefix}}actions` VALUES ('98', '删除', 'admin/file/remove', '102', '0', '97');
+INSERT INTO `{{$prefix}}actions` VALUES ('99', '下载', 'admin/file/download', '102', '0', '97');
+INSERT INTO `{{$prefix}}actions` VALUES ('100', '上传至七牛', 'admin/qiniu/put', '102', '0', '97');
+INSERT INTO `{{$prefix}}actions` VALUES ('101', '从七牛移除', 'admin/qiniu/delete', '102', '0', '97');

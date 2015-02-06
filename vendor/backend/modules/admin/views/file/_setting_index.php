@@ -15,6 +15,9 @@
 		echo F::form('setting')->inputCheckbox('cols[]', 'user', array(
 			'label'=>'用户',
 		));
+		echo F::form('setting')->inputCheckbox('cols[]', 'type', array(
+			'label'=>'用于',
+		));
 		echo F::form('setting')->inputCheckbox('cols[]', 'downloads', array(
 			'label'=>'下载次数',
 		));

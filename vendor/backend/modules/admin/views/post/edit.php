@@ -101,8 +101,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 <script>
 $(function(){
 	common.dragsortKey = 'admin_post_box_sort';
-	common.filebrowserImageUploadUrl = system.url("admin/file/do_upload", {'t':'posts'});
-	common.filebrowserFlashUploadUrl = system.url("admin/file/do_upload", {'t':'posts'});
+	common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'posts'});
+	common.filebrowserFlashUploadUrl = system.url("admin/file/upload", {'t':'posts'});
 	post.boxes = <?php echo json_encode($enabled_boxes)?>;
 	post.post_id = <?php echo $post['id']?>;
 	post.init();

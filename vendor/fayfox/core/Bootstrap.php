@@ -34,16 +34,14 @@ class Bootstrap extends FBase{
 			$cache_routers = $this->config('*', 'cache');
 			$cache_routers_keys = array_keys($cache_routers);
 			if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
-				$filename = md5(json_encode(Input::getInstance()->get($cache_routers[$uri->router]['params'])));
 				$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;
-				if(file_exists($filepath.'/'.$filename)){
-					if($cache_routers[$uri->router]['ttl'] == 0 || filemtime($filepath.'/'.$filename) + $cache_routers[$uri->router]['ttl'] > time()){
-						if(!empty($cache_routers[$uri->router]['eval'])){
-							eval($cache_routers[$uri->router]['eval']);
-						}
-						readfile($filepath.'/'.$filename);
-						die;
+				$cache_file = $filepath . '/' . md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+				if(file_exists($cache_file) && ($cache_routers[$uri->router]['ttl'] == 0 || filemtime($cache_file) + $cache_routers[$uri->router]['ttl'] > time())){
+					if(!empty($cache_routers[$uri->router]['eval'])){
+						eval($cache_routers[$uri->router]['eval']);
 					}
+					readfile($cache_file);
+					die;
 				}
 			}
 		}

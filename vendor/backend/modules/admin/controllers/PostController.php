@@ -93,6 +93,7 @@ class PostController extends AdminController{
 				$data['last_modified_time'] = 0;
 				$data['user_id'] = $this->current_user;
 				empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
+				$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 				isset($data['cat_id']) || $data['cat_id'] = $cat_id;
 				$post_id = Posts::model()->insert($data);
 				
@@ -343,11 +344,13 @@ class PostController extends AdminController{
 				$data['last_modified_time'] = $this->current_time;
 				if(empty($data['publish_time'])){
 					$data['publish_time'] = $this->current_time;
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 					$this->form()->setData(array(
 						'publish_time'=>date('Y-m-d H:i:s', $data['publish_time']),
 					));
 				}else{
 					$data['publish_time'] = strtotime($data['publish_time']);
+					$data['publish_date'] = date('Y-m-d', $data['publish_time']);
 				}
 				Posts::model()->update($data, $post_id);
 				

@@ -61,8 +61,7 @@ class Db extends FBase{
 			try {
 				$this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
 			}catch(\PDOException $e){
-				$handler = new ErrorHandler();
-				$handler->handleException($e);
+				throw new Exception($e->getMessage());
 			}
 			$this->_conn->exec("SET NAMES {$this->_charset}");
 		}
@@ -299,7 +298,7 @@ class Db extends FBase{
 		if(is_array($message)){
 			$message = implode(' - ', $message);
 		}
-		throw new Exception($message, '<code>'.SqlHelper::nice($sql, $params).'</code>');
+		throw new Exception($message, $sql ? '<code>'.SqlHelper::nice($sql, $params).'</code>' : '');
 	}
 	
 	public function getCount(){

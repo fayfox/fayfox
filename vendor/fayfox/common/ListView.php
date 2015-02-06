@@ -70,7 +70,7 @@ class ListView extends FBase{
 				$i++;
 				$view_data['index'] = $i;
 				$view_data['data'] = $data;
-				\F::app()->view->renderPartial($this->itemView, $view_data, false);
+				\F::app()->view->renderPartial($this->itemView, $view_data);
 			}
 		}else{
 			echo $this->emptyText;

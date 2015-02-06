@@ -11,6 +11,8 @@ use fayfox\helpers\Image;
 use fayfox\models\Qiniu;
 use fayfox\core\HttpException;
 use fayfox\core\Validator;
+use fayfox\core\Response;
+use fayfox\models\tables\Actionlogs;
 
 class FileController extends AdminController{
 	public function __construct(){
@@ -18,7 +20,7 @@ class FileController extends AdminController{
 		$this->layout->current_directory = 'file';
 	}
 	
-	public function do_upload(){
+	public function upload(){
 		set_time_limit(0);
 		
 		$target = $this->input->get('t');
@@ -39,7 +41,7 @@ class FileController extends AdminController{
 		}else if($target == 'exam'){
 			$type = Files::TYPE_EXAM;
 		}else{
-			$target = '';
+			$target = 'other';
 		}
 		
 		$private = !!$this->input->get('p');
@@ -51,28 +53,25 @@ class FileController extends AdminController{
 		}
 	}
 	
-	public function upload(){
+	public function doUpload(){
 		$this->layout->subtitle = '上传文件';
 		$this->view->render();
 	}
 	
-	public function ajax_delete(){
+	public function remove(){
 		if($file_id = $this->input->get('id', 'intval')){
 			$file = Files::model()->find($file_id);
 			if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
 				Qiniu::model()->delete($file);
 			}
-			if(Files::model()->delete("id = {$file_id}")){
-				@unlink($file['file_path'] . $file['raw_name'] . $file['file_ext']);
-				@unlink($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
-				$result = array('status'=>1);
-			}else{
-				$result = array('status'=>0, 'message'=>'未知的错误');
-			}
+			
+			Files::model()->delete($file_id);
+			@unlink($file['file_path'] . $file['raw_name'] . $file['file_ext']);
+			@unlink($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+			Response::output('success', '删除成功');
 		}else{
-			$result = array('status'=>0, 'message'=>'不完整的请求');
+			Response::output('error', '参数不完整');
 		}
-		echo json_encode($result);
 	}
 	
 	public function index(){
@@ -82,7 +81,7 @@ class FileController extends AdminController{
 		$_setting_key = 'admin_file_index';
 		$_settings = Setting::model()->get($_setting_key);
 		$_settings || $_settings = array(
-			'cols'=>array('client_name', 'file_type', 'file_path', 'file_size', 'username', 'create_time'),
+			'cols'=>array('client_name', 'file_type', 'file_size', 'username', 'upload_time'),
 			'display_name'=>'username',
 			'display_time'=>'short',
 			'page_size'=>10,
@@ -98,11 +97,61 @@ class FileController extends AdminController{
 		$sql->from('files', 'f')
 			->joinLeft('users', 'u', 'u.id = f.user_id', 'username,nickname,realname')
 			->order('id DESC');
+		
+		if($this->input->get('keywords')){
+			$sql->where(array('f.client_name LIKE ?'=>'%'.$this->input->get('keywords').'%'));
+		}
+		
+		if($this->input->get('type')){
+			$sql->where(array('f.type = ?'=>$this->input->get('type', 'intval')));
+		}
+		
+		if($this->input->get('qiniu') !== '' && $this->input->get('qiniu') !== null){
+			$sql->where(array('f.qiniu = ?'=>$this->input->get('qiniu', 'intval')));
+		}
+		
+		if($this->input->get('start_time')){
+			$sql->where(array("f.upload_time > ?"=>$this->input->get('start_time', 'strtotime')));
+		}
+		if($this->input->get('end_time')){
+			$sql->where(array("f.upload_time < ?"=>$this->input->get('end_time', 'strtotime')));
+		}
+		
 		$this->view->listview = new ListView($sql, array(
 			'pageSize'=>$this->form('setting')->getData('page_size', 20),
+			'emptyText'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 3).'" align="center">无相关记录！</td></tr>',
 		));
 		
 		$this->view->render();
+	}
+	
+	public function batch(){
+		$ids = $this->input->post('ids', 'intval');
+		$action = $this->input->post('batch_action');
+		if(empty($action)){
+			$action = $this->input->post('batch_action_2');
+		}
+		switch($action){
+			case 'remove':
+				$affected_rows = 0;
+				foreach($ids as $id){
+					$file = Files::model()->find($id);
+					if($file){
+						if($file['qiniu']){//如果已经上传到七牛，则先从七牛删除
+							Qiniu::model()->delete($file);
+						}
+							
+						Files::model()->delete($id);
+						@unlink($file['file_path'] . $file['raw_name'] . $file['file_ext']);
+						@unlink($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+						$affected_rows++;
+					}
+				}
+				
+				$this->actionlog(Actionlogs::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
+				Response::output('success', $affected_rows.'个文件被删除');
+			break;
+		}
 	}
 	
 	public function download(){

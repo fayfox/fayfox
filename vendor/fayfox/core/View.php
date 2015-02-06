@@ -124,7 +124,7 @@ class View extends FBase{
 	 */
 	public function render($view = null, $layout = null, $return = false){
 		$uri = Uri::getInstance();
-		$content = $this->renderPartial($view, array(), true);
+		$content = $this->renderPartial($view, array(), -1, true);
 		
 		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
 		if($layout !== false){
@@ -156,7 +156,7 @@ class View extends FBase{
 		$cache_routers = $this->config('*', 'cache');
 		$cache_routers_keys = array_keys($cache_routers);
 		if(in_array($uri->router, $cache_routers_keys)){
-			$filename = md5(json_encode(\F::input()->get($cache_routers[$uri->router]['params'])));
+			$filename = md5(json_encode(\F::input()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
 			$filepath = APPLICATION_PATH.'runtimes/cache/pages/'.$uri->router;
 			if(\F::input()->post()){
 				//有post数据的时候，是否更新页面
@@ -192,7 +192,15 @@ class View extends FBase{
 		}
 	}
 	
-	public function renderPartial($view = null, $view_data = array(), $return = false){
+	/**
+	 * 不带layout渲染一个视图
+	 * @param string $view
+	 * @param array $view_data 传参
+	 * @param bool $return 若为true，则不输出而是返回渲染结果
+	 * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
+	 * @return string|NULL
+	 */
+	public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
 		$uri = Uri::getInstance();
 		$module = isset($uri->module) ? $uri->module : $this->config('default_router.module');
 		//加载视图文件
@@ -222,6 +230,20 @@ class View extends FBase{
 			$view_relative_path = "modules/{$module}/views/{$controller}/{$action}.php";
 		}
 		
+		if($cache >= 0){
+			//从缓存获取
+			$filepath = APPLICATION_PATH.'runtimes/cache/partial';
+			$cache_file = $filepath . '/' . md5($view_relative_path);
+			if(file_exists($cache_file) && ($cache == 0 || filemtime($cache_file) + $cache > \F::app()->current_time)){
+				if($return){
+					return file_get_contents($cache_file);;
+				}else{
+					readfile($cache_file);
+					return null;
+				}
+			}
+		}
+		
 		if(file_exists(APPLICATION_PATH.$view_relative_path)){
 			//前台application
 			$view_path = APPLICATION_PATH.$view_relative_path;
@@ -234,13 +256,21 @@ class View extends FBase{
 		}
 		
 		if(!isset($view_path)){
-			$content = $view_relative_path.'视图文件不存在';
+			throw new Exception('视图文件不存在', 'Relative Path: '.$view_relative_path);
 		}else{
 			extract(array_merge($this->getViewData(), $view_data));
 			ob_start();
 			include $view_path;
 			$content = ob_get_contents();
 			ob_end_clean();
+		}
+		
+		if($cache >= 0){
+			//设置缓存
+			if(!is_dir($filepath)){
+				mkdir($filepath, 0770, true);
+			}
+			file_put_contents($cache_file, $content);
 		}
 		
 		if($return){

@@ -32,7 +32,7 @@ class Flash extends FBase{
 		if(is_array($notification)){
 			$html = \F::app()->view->renderPartial('common/notification', array(
 				'notification'=>$notification,
-			), true);
+			), -1, true);
 		}
 		return $html;
 	}

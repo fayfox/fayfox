@@ -38,7 +38,7 @@ var app = {
 					allowFileManager : true,
 					filterMode : false,
 					formatUploadUrl : false,
-					uploadJson : system.url('admin/file/do_upload', {'t':'goods'})
+					uploadJson : system.url('admin/file/upload', {'t':'goods'})
 				});
 				$($(this).attr("href")+' .lazy-kindeditor').removeClass("lazy-kindeditor");
 			}
@@ -52,7 +52,7 @@ var app = {
 			browse_button : 'upload_thumbnail',
 			container : 'container',
 			max_file_size : '10mb',
-			url : system.url("admin/file/do_upload", {'t':'goods'}),
+			url : system.url("admin/file/upload", {'t':'goods'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [
@@ -88,7 +88,7 @@ var app = {
 			browse_button : 'upload-photo-link',
 			container: 'upload-photo-container',
 			max_file_size : '2mb',
-			url : system.url("admin/file/do_upload", {'t':'goods'}),
+			url : system.url("admin/file/upload", {'t':'goods'}),
 			flash_swf_url : system.url()+'flash/plupload.flash.swf',
 			silverlight_xap_url : system.url()+'js/plupload.silverlight.xap',
 			filters : [

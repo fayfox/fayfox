@@ -7,12 +7,14 @@ use fayfox\core\Response;
 
 class QiniuController extends AdminController{
 	public function put(){
-		$result = Qiniu::model()->put($this->input->get('id', 'intval'));
+		$file_id = $this->input->get('id', 'intval');
+		$result = Qiniu::model()->put($file_id);
 		
 		if($result['status']){
 			Response::output('success', array(
 				'message'=>'文件已被上传至七牛',
 				'data'=>$result['data'],
+				'url'=>Qiniu::model()->getUrl($file_id),
 			));
 		}else{
 			Response::output('error', array(
@@ -26,7 +28,7 @@ class QiniuController extends AdminController{
 		
 		if($result !== true){
 			Response::output('error', array(
-				'message'=>'从七牛删除文件出错'.$result->Err,
+				'message'=>'从七牛删除文件出错:'.$result->Err,
 			));
 		}else{
 			Response::output('success', array(

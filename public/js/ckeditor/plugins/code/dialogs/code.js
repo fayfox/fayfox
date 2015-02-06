@@ -21,15 +21,18 @@ CKEDITOR.dialog.add('Code', function(editor){
             label: 'cb',
             title: 'cb',
 			elements: [{
+				label:'语言',
 				type: 'select',
 				id: 'lang',
 				required: true,
 				'default': 'php',
 				items: [['PHP', 'php'], ['Javascript', 'js'], ['HTML', 'html'], ['CSS', 'css'], ['XML', 'xml']]
 			}, {
+				label:'代码',
 				type: 'textarea',
 				id: 'code',
 				rows: 20,
+				required: true,
 				'default': ''
 			}]
 		}],

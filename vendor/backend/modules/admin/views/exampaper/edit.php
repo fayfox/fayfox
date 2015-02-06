@@ -44,7 +44,7 @@ use fayfox\models\tables\ExamPapers;
 <?php $this->renderPartial('_dialog')?>
 <script src="<?php echo $this->url()?>js/custom/admin/paper.js"></script>
 <script>
-common.filebrowserImageUploadUrl = system.url("admin/file/do_upload", {'t':'exam'});
+common.filebrowserImageUploadUrl = system.url("admin/file/upload", {'t':'exam'});
 paper.types = {
 	'<?php echo ExamQuestions::TYPE_TRUE_OR_FALSE?>':'判断题',
 	'<?php echo ExamQuestions::TYPE_SINGLE_ANSWER?>':'单选题',

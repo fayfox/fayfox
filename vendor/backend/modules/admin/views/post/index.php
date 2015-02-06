@@ -7,7 +7,7 @@ use backend\helpers\ListTableHelper;
 $cols = F::form('setting')->getData('cols', array());
 ?>
 <div class="col-1">
-	<form method="get" class="validform" id="search-form">
+	<?php echo F::form('search')->open(null, 'get')?>
 		<div class="mb5">
 		文章标题：<?php echo F::form('search')->inputText('title', array(
 			'class'=>'w200',
@@ -46,7 +46,7 @@ $cols = F::form('setting')->getData('cols', array());
 		));?>
 			<a href="javascript:;" class="btn-3" id="search-form-submit">查询</a>
 		</div>
-	</form>
+	<?php echo F::form('search')->close()?>
 	<ul class="subsubsub fl">
 		<li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
 			<a href="<?php echo $this->url('admin/post/index')?>">全部</a>

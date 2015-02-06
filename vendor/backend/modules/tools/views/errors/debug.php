@@ -92,6 +92,14 @@ if(method_exists($exception, 'getLevel')){
 			<th>default_router</th>
 			<td><?php echo implode('/', F::config()->get('default_router'))?></td>
 		</tr>
+		<tr>
+			<th>db.host</th>
+			<td><?php echo F::config()->get('db.host')?></td>
+		</tr>
+		<tr>
+			<th>db.dbname</th>
+			<td><?php echo F::config()->get('db.dbname')?></td>
+		</tr>
 	</table>
 	<h3>System Data</h3>
 	<table class="data-table">

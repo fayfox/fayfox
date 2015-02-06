@@ -93,7 +93,7 @@ class Qiniu extends Model{
 		}
 		
 		if(!$file['qiniu']){
-			return false;
+			return '';
 		}
 		$domain = \F::app()->config->get('domain', 'qiniu');
 		$domain || $domain = 'http://'.\F::app()->config->get('bucket', 'qiniu').'.qiniudn.com/';

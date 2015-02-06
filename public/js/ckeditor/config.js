@@ -11,19 +11,21 @@ CKEDITOR.editorConfig = function( config ) {
 		['Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
 		['Link', 'Unlink'],
 		['Image', 'Table', 'Smiley', 'Flash', 'Code'],
-		['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+		['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Blockquote'],
 		'/',
-		['Format', 'Font', 'FontSize'],
+		['Format', 'Styles', 'FontSize'],
 		['TextColor', 'BGColor'],
 		['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'],
 		['Maximize', 'ShowBlocks'],
 		['Find', 'Replace']
 	];
 	
-	config.uiColor = '#ffffff';
+	//config.uiColor = '#ffffff';
 	config.contentsCss = system.url('js/ckeditor/custom.css');
 	
 	config.allowedContent = true;//不让它自动过滤
 	
 	config.language = 'zh-cn';
+	
+	config.skin = 'bootstrapck';
 };
