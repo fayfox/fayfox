@@ -15,6 +15,8 @@ use fayfox\models\tables\PostsTags;
 use fayfox\models\tables\PostPropInt;
 use fayfox\models\tables\PostPropVarchar;
 use fayfox\models\tables\PostPropText;
+use fayfox\helpers\String;
+use fayfox\core\Loader;
 
 class Post extends Model{
 	
@@ -509,5 +511,21 @@ class Post extends Model{
 			));
 		}
 		return $sql->fetchAll();
+	}
+	
+	/**
+	 * 格式化文章内容（若是markdown语法，会转换为html，若是纯文本，会把回车转为p标签）
+	 * @param array $post 至少包含content和content_type的数组
+	 * @return string
+	 */
+	public static function formatContent($post){
+		if($post['content_type'] == Posts::CONTENT_TYPE_MARKDOWN){
+			Loader::vendor('Markdown/markdown');
+			return Markdown($post['content']);
+		}else if($post['content_type'] == Posts::CONTENT_TYPE_TEXTAREA){
+			return String::nl2p($post['content']);
+		}else{
+			return $post['content'];
+		}
 	}
 }

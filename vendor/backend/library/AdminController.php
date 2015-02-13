@@ -353,12 +353,18 @@ class AdminController extends Controller{
 	
 	/**
 	 * 获取用户启用的boxes
+	 * 
+	 * @param null|string|array $settings 若为null 会去View中获取key
+	 * 若是string 视为key
+	 * 若是array 视为传入配置数组
 	 */
-	protected function getEnabledBoxes($key = null){
-		$key || $key = $this->view->_setting_key;
-		$boxes = Setting::model()->get($key);
-		if($boxes !== null){
-			return array_intersect($this->getBoxNames(), isset($boxes['boxes']) ? $boxes['boxes'] : array());
+	protected function getEnabledBoxes($settings = null){
+		$settings === null && $settings = $this->view->_setting_key;
+		if(!is_array($settings)){
+			$settings = Setting::model()->get($settings);
+		}
+		if(!empty($settings['boxes'])){
+			return array_intersect($this->getBoxNames(), isset($settings['boxes']) ? $settings['boxes'] : array());
 		}else{
 			return $this->getBoxNames();
 		}

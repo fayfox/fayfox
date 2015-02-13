@@ -48,7 +48,7 @@ class DbCompareController extends ToolsController{
 				'user'=>$this->db_config['left']['user'],
 				'password'=>$this->db_config['left']['password'],
 				'dbname'=>$this->db_config['left']['dbname'],
-				'prefix'=>$this->db_config['left']['prefix'],
+				'table_prefix'=>$this->db_config['left']['prefix'],
 			));
 			
 			$this->right_db = new \backend\library\Db(array(
@@ -56,7 +56,7 @@ class DbCompareController extends ToolsController{
 				'user'=>$this->db_config['right']['user'],
 				'password'=>$this->db_config['right']['password'],
 				'dbname'=>$this->db_config['right']['dbname'],
-				'prefix'=>$this->db_config['right']['prefix'],
+				'table_prefix'=>$this->db_config['right']['prefix'],
 			));
 		}
 	}
@@ -168,10 +168,15 @@ class DbCompareController extends ToolsController{
 		foreach($intersect_tables as $table){
 			$left_ddl = $this->left_db->fetchRow("SHOW CREATE TABLE {$this->db_config['left']['prefix']}{$table}");
 			$right_ddl = $this->right_db->fetchRow("SHOW CREATE TABLE {$this->db_config['right']['prefix']}{$table}");
-
+			
 			//无视自增字段
 			$left_ddl = preg_replace('/AUTO_INCREMENT=\d+ /', '', $left_ddl['Create Table']);
 			$right_ddl = preg_replace('/AUTO_INCREMENT=\d+ /', '', $right_ddl['Create Table']);
+			
+			//删除表前缀
+			$left_ddl = preg_replace("/^CREATE TABLE `{$this->db_config['left']['prefix']}(.*)`/", 'CREATE TABLE `$1`', $left_ddl);
+			$right_ddl = preg_replace("/^CREATE TABLE `{$this->db_config['right']['prefix']}(.*)`/", 'CREATE TABLE `$1`', $right_ddl);
+			
 			
 			//无视注释
 			$left_ddl = preg_replace("/ COMMENT '.+'/", '', $left_ddl);

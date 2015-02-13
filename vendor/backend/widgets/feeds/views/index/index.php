@@ -44,7 +44,7 @@ use fayfox\models\tables\Logs;
 </div>
 <script>
 $(function(){
-	if($("#system-log-container").height() > 250){
+	if($('#system-log-container').height() > 250){
 		system.getScript(system.url('js/jquery.slimscroll.min.js'), function(){
 			$("#system-log-container").slimScroll({
 				'allowPageScroll':true,

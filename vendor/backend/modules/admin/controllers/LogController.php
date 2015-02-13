@@ -4,6 +4,7 @@ namespace backend\modules\admin\controllers;
 use backend\library\AdminController;
 use fayfox\core\Sql;
 use fayfox\common\ListView;
+use fayfox\core\Loader;
 
 class LogController extends AdminController{
 	public function __construct(){
@@ -43,7 +44,7 @@ class LogController extends AdminController{
 		));
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();

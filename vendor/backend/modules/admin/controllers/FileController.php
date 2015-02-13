@@ -66,8 +66,8 @@ class FileController extends AdminController{
 			}
 			
 			Files::model()->delete($file_id);
-			@unlink($file['file_path'] . $file['raw_name'] . $file['file_ext']);
-			@unlink($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
+			@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
 			Response::output('success', '删除成功');
 		}else{
 			Response::output('error', '参数不完整');
@@ -142,8 +142,8 @@ class FileController extends AdminController{
 						}
 							
 						Files::model()->delete($id);
-						@unlink($file['file_path'] . $file['raw_name'] . $file['file_ext']);
-						@unlink($file['file_path'] . $file['raw_name'] . '-100x100.jpg');
+						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
+						@unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100.jpg');
 						$affected_rows++;
 					}
 				}
@@ -158,7 +158,7 @@ class FileController extends AdminController{
 		if($file_id = $this->input->get('id', 'intval')){
 			if($file = Files::model()->find($file_id)){
 				Files::model()->inc($file_id, 'downloads', 1);
-				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
+				$data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');
 					header('Content-Disposition: attachment; filename="'.$file['raw_name'].$file['file_ext'].'"');
@@ -264,9 +264,9 @@ class FileController extends AdminController{
 	
 	private function view_pic($file){
 		if($file !== false){
-			if(file_exists($file['file_path'].$file['raw_name'].$file['file_ext'])){
+			if(file_exists((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])){
 				header('Content-type: '.$file['file_type']);
-				readfile($file['file_path'].$file['raw_name'].$file['file_ext']);
+				readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			}else{
 				header('Content-type: image/jpeg');
 				readfile(BASEPATH . '/images/no-image.jpg');
@@ -280,7 +280,7 @@ class FileController extends AdminController{
 	private function view_thumbnail($file){
 		if($file !== false){
 			header('Content-type: '.$file['file_type']);
-			readfile($file['file_path'].$file['raw_name'].'-100x100.jpg');
+			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 		}else{
 			$img = file_get_contents('./images/thumbnail.jpg');
 			header('Content-type: image/jpeg');
@@ -305,7 +305,7 @@ class FileController extends AdminController{
 		if(!$h)throw new HttpException('不完整的请求', 500);
 		
 		if($file !== false){
-			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = Image::get_img((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		
 			if($dw == 0){
 				$dw = $w;
@@ -355,7 +355,7 @@ class FileController extends AdminController{
 		}
 		
 		if($file !== false){
-			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = Image::get_img((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		
 			$img = Image::zoom($img, $dw, $dh);
 		

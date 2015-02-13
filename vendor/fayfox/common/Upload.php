@@ -92,7 +92,13 @@ class Upload extends FBase{
 		$ext = File::getFileExt($file['name']);
 		$filename = File::getFilename($this->upload_path, $ext);
 		
-		if( move_uploaded_file($file['tmp_name'], $this->upload_path.$filename) ){
+		//没开启URL重写的话，"./uploads/"这样的路径就不是public下了
+		if(defined('NO_REWRITE')){
+			$destination = './public/'.$this->upload_path.$filename;
+		}else{
+			$destination = $this->upload_path.$filename;
+		}
+		if( move_uploaded_file($file['tmp_name'], $destination)){
 			$data = array(
 				'file_name'=>$filename,
 				'raw_name'=>str_replace($ext, '', $filename),
@@ -103,7 +109,7 @@ class Upload extends FBase{
 				'full_path'=>$this->upload_path . $filename,
 				'client_name'=>$file['name'],
 			);
-			$data = array_merge($data, $this->setImgProperties($this->upload_path.$filename));
+			$data = array_merge($data, $this->setImgProperties($destination));
 			return $data;
 		}else{
 			$this->setErrorMsg('未知的错误类型');

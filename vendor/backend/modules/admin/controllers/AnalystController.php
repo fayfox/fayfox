@@ -8,6 +8,7 @@ use fayfox\common\ListView;
 use fayfox\models\tables\AnalystSites;
 use fayfox\helpers\Date;
 use fayfox\helpers\RequestHelper;
+use fayfox\core\Loader;
 
 class AnalystController extends AdminController{
 	public function __construct(){
@@ -80,7 +81,7 @@ class AnalystController extends AdminController{
 		), 'id,title');
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();
@@ -146,7 +147,7 @@ class AnalystController extends AdminController{
 		), 'id,title');
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();
@@ -234,7 +235,7 @@ class AnalystController extends AdminController{
 		), 'id,title');
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();
@@ -270,7 +271,7 @@ class AnalystController extends AdminController{
 		));
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();

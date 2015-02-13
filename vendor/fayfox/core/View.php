@@ -130,9 +130,9 @@ class View extends FBase{
 		if($layout !== false){
 			if($layout !== null){
 				//加载模板文件
-				$layout_relative_path = "modules/{$module}/layouts/{$layout}.php";
+				$layout_relative_path = "modules/{$module}/views/layouts/{$layout}.php";
 			}else if(!empty(\F::app()->layout_template)){
-				$layout_relative_path = "modules/{$module}/layouts/".\F::app()->layout_template.".php";
+				$layout_relative_path = "modules/{$module}/views/layouts/".\F::app()->layout_template.'.php';
 			}
 			if(isset($layout_relative_path)){
 				if(file_exists(APPLICATION_PATH.$layout_relative_path)){
@@ -184,7 +184,7 @@ class View extends FBase{
 		}else{
 			echo $content;
 			//自动输出debug信息
-			if($this->config('debug') || $this->config('environment') == 'development'){
+			if($this->config('debug')){
 			    $this->renderPartial('common/_debug');
 			}
 			

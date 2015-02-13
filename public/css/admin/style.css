@@ -42,8 +42,6 @@ table{border-spacing:0;}
 .bg-green{background-color:#9DD30B !important;}
 .bg-green:hover{background-color:#8DBD0A !important;}
 .title-sup{padding:1px 3px;font-weight:normal;}
-.w45per{width:45%;}
-.w90per{width:90%;}
 .full-width{width:98%;}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .w20{width:20px;}
@@ -66,6 +64,9 @@ table{border-spacing:0;}
 .wp30{width:30%;}
 .wp35{width:35%;}
 .wp38{width:38%;}
+.wp45{width:45%;}
+.wp90{width:90%;}
+.wp99{width:99%;}
 .h40{height:30px;}
 .h60{height:60px;}
 .h90{height:90px;}
@@ -400,3 +401,34 @@ input.bigtxt{font-size:1.7em;line-height:100%;outline:0 none;padding:3px 1%;widt
 .fac-container li{padding:5px 6px;}
 .fac-container li .highlight{background-color:yellow;}
 .fac-container li.active{background-color:#eeeeee;cursor:pointer;}
+
+/* prettify */
+pre code{border:0 none;background:none;}
+pre .str,code .str{color:#65b042}
+pre .kwd,code .kwd{color:#e28964}
+pre .com,code .com{color:#aeaeae;font-style:italic}
+pre .typ,code .typ{color:#89bdff}
+pre .lit,code .lit{color:#3387cc}
+pre .pun,code .pun{color:#fff}
+pre .pln,code .pln{color:#fff}
+pre .tag,code .tag{color:#89bdff}
+pre .atn,code .atn{color:#bdb76b}
+pre .atv,code .atv{color:#65b042}
+pre .dec,code .dec{color:#3387cc}
+pre.prettyprint,code.prettyprint{background-color:#333;font-family:'Source Code Pro', Monaco, Consolas, "Lucida Console", monospace;}
+pre.prettyprint{margin:0 auto;padding:1em 0 1em 1em;white-space:pre-wrap}
+ol.linenums{margin-top:0;margin-bottom:0;color:#aeaeae}
+@media print{
+pre .str,code .str{color:#060}
+pre .kwd,code .kwd{color:#006;font-weight:bold}
+pre .com,code .com{color:#600;font-style:italic}
+pre .typ,code .typ{color:#404;font-weight:bold}
+pre .lit,code .lit{color:#044}
+pre .pun,code .pun{color:#440}
+pre .pln,code .pln{color:#333}
+pre .tag,code .tag{color:#006;font-weight:bold}
+pre .atn,code .atn{color:#404}
+pre .atv,code .atv{color:#060}
+}
+pre li.crt{background-color:#553B3B;}
+pre li:hover{background-color:#575757;}

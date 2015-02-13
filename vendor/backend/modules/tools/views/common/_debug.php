@@ -13,7 +13,7 @@ $db = Db::getInstance();
 <style>
 /* tab切换 */
 #debug-container{clear:both;font-size:13px;line-height:20px;}
-#debug-container .tabbable .nav-tabs{zoom:1;clear:left;} 
+#debug-container .tabbable .nav-tabs{zoom:1;clear:left;padding:0;margin:0;} 
 #debug-container .tabbable .nav-tabs:before, .tabbable .nav-tabs:after{content:"";display:table;}
 #debug-container .tabbable .nav-tabs:after{clear: both;}
 #debug-container .tabbable .nav-tabs li{display:block;float:left;margin-right:4px;margin-bottom:-1px;padding-top:1px;background-color:#FFFFFF;border:1px solid #DDDDDD;}
@@ -25,7 +25,7 @@ $db = Db::getInstance();
 
 /* 常见的普通表格式样 */
 #debug-container .debug-table{width:100%;border-spacing:0;border-color:#F0F0EE;border-style:solid;border-width:1px 1px 0 0;}
-#debug-container .debug-table td,#debug-container .debug-table th{padding:8px;border-color:#F0F0EE;border-style:solid;border-width:0 0 1px 1px;}
+#debug-container .debug-table td,#debug-container .debug-table th{padding:8px;border-color:#F0F0EE;border-style:solid;border-width:0 0 1px 1px;font-size:13px;}
 #debug-container .debug-table th{text-align:left;}
 
 /* 字体颜色 */

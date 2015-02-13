@@ -56,12 +56,7 @@ class ErrorHandler extends FBase{
 			return;
 		}
 		$exception = new ErrorException($message, $code, $file, $line, $code);
-		if($this->config('debug')){
-			//debug模式，强制执行debug报错并停止程序执行
-			$this->renderDebug($exception);
-		}else{
-			$this->renderPHPError($exception);
-		}
+		$this->renderPHPError($exception);
 	}
 	
 	/**

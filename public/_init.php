@@ -11,9 +11,10 @@ define('MODULE_PATH', realpath(APPLICATION_PATH . 'modules') . DS);
 
 //包含基础文件
 require SYSTEM_PATH.'F.php';
+require SYSTEM_PATH.'fayfox/core/Loader.php';
 
 //注册自动加载
-spl_autoload_register(array('F', 'autoload'));
+spl_autoload_register(array('fayfox\core\Loader', 'autoload'));
 
 //捕获报错
 $error_handler = new ErrorHandler();

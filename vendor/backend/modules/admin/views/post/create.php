@@ -31,8 +31,8 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 					</div>
 				</div>
 			</div>
-			<?php if(isset($_settings['side'])){
-				foreach($_settings['side'] as $box){
+			<?php if(isset($_box_sort_settings['side'])){
+				foreach($_box_sort_settings['side'] as $box){
 					$k = array_search($box, $boxes_cp);
 					if($k !== false){
 						if(isset(F::app()->boxes[$k]['view'])){
@@ -54,16 +54,11 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 						'class'=>'bigtxt',
 					))?>
 				</div>
-				<div class="postarea">
-					<?php echo F::form()->textarea('content', array(
-						'id'=>'visual-editor',
-						'class'=>'h350',
-					))?>
-				</div>
+				<div class="postarea clearfix"><?php $this->renderPartial('_content')?></div>
 				<div class="mt20 dragsort" id="normal">
 				<?php 
-					if(isset($_settings['normal'])){
-						foreach($_settings['normal'] as $box){
+					if(isset($_box_sort_settings['normal'])){
+						foreach($_box_sort_settings['normal'] as $box){
 							$k = array_search($box, $boxes_cp);
 							if($k !== false){
 								if(isset(F::app()->boxes[$k]['view'])){

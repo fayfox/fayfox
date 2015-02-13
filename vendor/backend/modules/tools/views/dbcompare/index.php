@@ -18,41 +18,33 @@ use fayfox\helpers\Html;
 				<div class="form-field">
 					<label class="title">Host<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('left[host]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'Host can\'t be empty'}",
+						'data-required'=>"Host can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">User<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('left[user]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'User can\'t be empty'}",
+						'data-required'=>"User can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Password</label>
 					<?php echo F::form()->inputText('left[password]', array(
-						'data-rule'=>'string',
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Db Name<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('left[dbname]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'Db name can\'t be empty'}",
+						'data-required'=>"Db Name can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Table Prefix</label>
 					<?php echo F::form()->inputText('left[prefix]', array(
-						'data-rule'=>'string',
 						'class'=>'w300',
 					))?>
 				</div>
@@ -76,41 +68,33 @@ use fayfox\helpers\Html;
 				<div class="form-field">
 					<label class="title">Host<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('right[host]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'Host can\'t be empty'}",
+						'data-required'=>"Host can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">User<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('right[user]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'User can\'t be empty'}",
+						'data-required'=>"User can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Password</label>
 					<?php echo F::form()->inputText('right[password]', array(
-						'data-rule'=>'string',
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Db Name<em class="color-red">*</em></label>
 					<?php echo F::form()->inputText('right[dbname]', array(
-						'data-rule'=>'string',
-						'data-required'=>'required',
-						'data-params'=>"{message:'Db name can\'t be empty'}",
+						'data-required'=>"Db Name can't be empty",
 						'class'=>'w300',
 					))?>
 				</div>
 				<div class="form-field">
 					<label class="title">Table Prefix</label>
 					<?php echo F::form()->inputText('right[prefix]', array(
-						'data-rule'=>'string',
 						'class'=>'w300',
 					))?>
 				</div>
@@ -125,6 +109,9 @@ $(function(){
 			$('#left-db').find('input').each(function(){
 				$(this).poshytip('hide');
 			});
+			$('#left-db').hide();
+		}else{
+			$('#left-db').show();
 		}
 	});
 	$('.right-from').on('change', function(){
@@ -132,6 +119,9 @@ $(function(){
 			$('#right-db').find('hidden').each(function(){
 				$(this).poshytip('hide');
 			});
+			$('#right-db').hide();
+		}else{
+			$('#right-db').show();
 		}
 	});
 });

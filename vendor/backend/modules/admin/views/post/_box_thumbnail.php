@@ -20,7 +20,7 @@ use fayfox\models\File;
 				)), File::model()->getUrl($post['thumbnail']), array(
 					'encode'=>false,
 					'class'=>'fancybox-image',
-					'title'=>false,
+					'title'=>'点击查看原图',
 				));
 				echo Html::link('移除缩略图', 'javascript:;', array(
 					'id'=>'remove-thumbnail'

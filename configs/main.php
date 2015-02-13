@@ -18,10 +18,10 @@ return array(
 	 * 数据库参数
 	 */
 	'db'=>array(
-		'host'=>'112.124.64.22',				//数据库服务器
-		'user'=>'framework',					//用户名
-		'password'=>'FhvDA8YznCMf7KCS',			//密码
-		'dbname'=>'fayfox_develop',				//数据库名
+// 		'host'=>'112.124.64.22',				//数据库服务器
+// 		'user'=>'framework',					//用户名
+// 		'password'=>'FhvDA8YznCMf7KCS',			//密码
+// 		'dbname'=>'fayfox_develop',				//数据库名
 		'host'=>'localhost',					//数据库服务器
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
@@ -48,8 +48,7 @@ return array(
 	'environment'=>'development',
 	
 	/*
-	 * 严格的报错模式
-	 * 若系统环境为development且debug为true，则任何报错（例如：Notice）都会导致页面执行中断
+	 * 若为true，则页面地步会列出所有被执行的sql语句等信息
 	 */
 	'debug'=>false,
 	

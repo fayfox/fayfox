@@ -1,6 +1,5 @@
 var post = {
 	'boxes':[],
-	'editorObj':null,
 	'thumbnail':function(){
 		//设置缩略图
 		var uploader = new plupload.Uploader({

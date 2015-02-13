@@ -344,6 +344,7 @@ jQuery.fn.extend({
 					});
 					$(this).parent().remove();
 					app.refreshChoices();
+					return false;
 				});
 			},
 			'init':function(){

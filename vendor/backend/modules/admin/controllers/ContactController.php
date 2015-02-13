@@ -9,6 +9,7 @@ use fayfox\models\tables\Contacts;
 use fayfox\models\tables\Actionlogs;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
+use fayfox\core\Loader;
 
 class ContactController extends AdminController{
 	public function __construct(){
@@ -36,7 +37,7 @@ class ContactController extends AdminController{
 		
 		if(in_array('ip', $_settings['cols'])){
 			//引入IP地址库
-			$this->plugin->load('IpLocation/IpLocation.class');
+			Loader::vendor('IpLocation/IpLocation.class');
 			$this->view->iplocation = new \IpLocation();
 		}
 		
@@ -48,7 +49,7 @@ class ContactController extends AdminController{
 		));
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();

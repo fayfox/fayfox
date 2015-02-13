@@ -474,7 +474,10 @@
 				var eleName = obj.attr('name');
 				if(!eleName)return null;//没有name的元素不做验证
 				var eleNameMatch = eleName.match(/.+\[(\w*)]$/);
-				if(eleNameMatch !== null && typeof(eleNameMatch[1]) != 'undefined'){//若存在方括号，去掉最后一个方括号及其内容
+				if(eleNameMatch !== null && typeof(eleNameMatch[1]) != 'undefined'){
+					//若存在方括号，去掉最后一个方括号及其内容。
+					//此逻辑用于files[], files[100]这样的情况
+					//不支持如db[host]这样的多维数组
 					eleName = eleName.replace(new RegExp('\\['+eleNameMatch[1]+']$'), '');
 				}
 				var attrLabel = obj.attr('data-label'),
@@ -493,8 +496,9 @@
 					attrParams = {};
 				}
 				
-				if(attrRequired == 'required'){
+				if(typeof(attrRequired) != 'undefined'){
 					rule.required = true;
+					rule.requiredMsg = attrRequired;
 				}
 				if(attrAjax){
 					rule.ajax = attrAjax;
@@ -509,7 +513,13 @@
 				
 				if(rule.required){
 					//先进行非空验证
-					msg = $.validform.validators.required(value, {}, eleLabel);
+					msg = $.validform.validators.required(value, (function(message){
+						if(typeof(message) != 'undefined' && message != 'required'){
+							return {'message':message}
+						}else{
+							return {};
+						}
+					})(rule.requiredMsg), eleLabel);
 				}
 				
 				if(msg === true){

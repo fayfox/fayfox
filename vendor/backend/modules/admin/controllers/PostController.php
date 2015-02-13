@@ -157,15 +157,18 @@ class PostController extends AdminController{
 			'cat_id'=>$cat_id,
 		));
 		
-		$_settings = Setting::model()->get('admin_post_box_sort');
-		$_settings || $_settings = $this->default_box_sort;
-		$this->view->_settings = $_settings;
+		$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
+		$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+		$this->view->_box_sort_settings = $_box_sort_settings;
 
-		$this->layout->_setting_panel = '_setting_boxes';
+		$this->layout->_setting_panel = '_setting_edit';
 		$_setting_key = 'admin_post_boxes';
+		$_settings = Setting::model()->get($_setting_key);
+		$_settings || $_settings = array();
 		$this->form('setting')
 			->setModel(Setting::model())
 			->setJsModel('setting')
+			->setData($_settings)
 			->setData(array(
 				'_key'=>$_setting_key,
 				'enabled_boxes'=>$this->getEnabledBoxes($_setting_key),
@@ -293,7 +296,7 @@ class PostController extends AdminController{
 	
 	public function edit(){
 		//可用的box
-		$this->layout->_setting_panel = '_setting_boxes';
+		$this->layout->_setting_panel = '_setting_edit';
 		$_setting_key = 'admin_post_boxes';
 		//这里获取enabled_boxes是为了更新文章的时候用
 		//由于box可能被hook改掉，后面还会再获取一次enabled_boxes
@@ -306,6 +309,9 @@ class PostController extends AdminController{
 		
 		//所有附加属性
 		$post = Posts::model()->find($post_id, 'cat_id');
+		if(!$post){
+			throw new HttpException('无效的文章ID');
+		}
 		$cat = Category::model()->get($post['cat_id'], 'title,left_value,right_value');
 		
 		//若分类已被删除，将文章归为根分类
@@ -498,22 +504,23 @@ class PostController extends AdminController{
 			);
 			
 			//box排序
-			$_settings = Setting::model()->get('admin_post_box_sort');
-			$_settings || $_settings = $this->default_box_sort;
-			$this->view->_settings = $_settings;
+			$_box_sort_settings = Setting::model()->get('admin_post_box_sort');
+			$_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
+			$this->view->_box_sort_settings = $_box_sort_settings;
 			
 			$enabled_boxes = $this->getEnabledBoxes($_setting_key);
+			$_settings = Setting::model()->get($_setting_key);
+			$_settings || $_settings = array();
 			$this->form('setting')
 				->setModel(Setting::model())
 				->setJsModel('setting')
+				->setData($_settings)
 				->setData(array(
 					'_key'=>$_setting_key,
 					'enabled_boxes'=>$enabled_boxes,
 				));
 			
 			$this->view->render();
-		}else{
-			throw new HttpException('无效的文章ID');
 		}
 	}
 	

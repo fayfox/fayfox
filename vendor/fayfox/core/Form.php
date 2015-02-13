@@ -374,6 +374,9 @@ class Form extends FBase{
 				}
 				if($r[1] == 'required'){
 					$js_rules[$field]['required'] = true;
+					if(isset($r[2]['message'])){
+						$js_rules[$field]['requiredMsg'] = $r[2]['message'];
+					}
 				}else if($r[1] == 'unique' || $r[1] == 'exist'){
 					if(isset($r[2]['ajax'])){
 						$params = isset($r[2]['ajax'][1]) ? $r[2]['ajax'][1] : array();

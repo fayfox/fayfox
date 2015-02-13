@@ -176,9 +176,9 @@ class File extends Model{
 					'type'=>$type,
 				);
 				$data['id'] = Files::model()->insert($data);
-				$src_img = Image::get_img($data['file_path'].$data['raw_name'].$data['file_ext']);
+				$src_img = Image::get_img((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
 				$img = Image::zoom($src_img, 100, 100);
-				imagejpeg($img, $data['file_path'].$data['raw_name'].'-100x100.jpg');
+				imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
 				$data['error'] = 0;
 				if($private){
 					//私有文件通过file/pic访问
@@ -354,5 +354,19 @@ class File extends Model{
 		}else{
 			return $file[$line - 1];
 		}
+	}
+	
+	/**
+	 * 创建一个文件。
+	 *   若文件不存在，会先创建文件
+	 *   若文件存在，会覆盖
+	 *   若目录也        不存在，则会先创建目录
+	 */
+	public static function createFile($file, $data){
+		$dir = dirname($file);
+		if(!is_dir($dir)){
+			self::createFolder($dir);
+		}
+		file_put_contents($file, $data);
 	}
 }

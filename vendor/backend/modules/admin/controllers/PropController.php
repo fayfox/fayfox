@@ -10,7 +10,6 @@ use fayfox\models\tables\CatProps;
 use fayfox\models\tables\CatPropValues;
 use fayfox\models\tables\Actionlogs;
 use fayfox\core\Response;
-use fayfox\models\Prop;
 use fayfox\models\tables\Props;
 
 /**

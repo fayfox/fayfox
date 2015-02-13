@@ -16,6 +16,22 @@ class Posts extends Table{
 	 * @var int
 	 */
 	const STATUS_PUBLISH = 1;
+	
+	/**
+	 * 文本类型 - 可视化编辑器
+	 * @var int
+	 */
+	const CONTENT_TYPE_VISUAL_EDITOR = 1;
+	/**
+	 * 文本类型 - 文本域
+	 * @var int
+	 */
+	const CONTENT_TYPE_TEXTAREA = 2;
+	/**
+	 * 文本类型 - Markdown
+	 * @var int
+	 */
+	const CONTENT_TYPE_MARKDOWN = 3;
 
 	/**
 	 * @return Posts
@@ -50,6 +66,7 @@ class Posts extends Table{
 			'title'=>'标题',
 			'alias'=>'别名',
 			'content'=>'正文',
+			'content_type'=>'正文类型（普通文本，符文本，markdown）',
 			'create_time'=>'后台添加时间',
 			'last_modified_time'=>'最后修改时间',
 			'publish_date'=>'发布日期',
@@ -77,6 +94,7 @@ class Posts extends Table{
 			'title'=>'trim',
 			'alias'=>'trim',
 			'content'=>'',
+			'content_type'=>'intval',
 			'create_time'=>'',
 			'last_modified_time'=>'',
 			'publish_date'=>'',

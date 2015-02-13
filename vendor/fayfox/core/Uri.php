@@ -48,7 +48,14 @@ class Uri extends FBase{
 	private function _parseHttpArgs(){
 		//若配置文件中未设置base_url，则系统猜测一个
 		$base_url = $this->config('base_url');
-		if(!$base_url){
+		
+		if($base_url){
+			//若未开启伪静态，需要加上index.php/
+			if(defined('NO_REWRITE') && NO_REWRITE && substr($base_url, -10) != 'index.php/'){
+				$base_url .= 'index.php/';
+				$this->setConfig('base_url', $base_url);
+			}
+		}else{
 			$folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
 			if(substr($folder, -7) == '/public'){
 				$folder = substr($folder, 0, -7);
@@ -58,6 +65,9 @@ class Uri extends FBase{
 				$folder = '/'.$folder;
 			}
 			$base_url = 'http://'.(isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : $_SERVER['HTTP_HOST']).$folder.'/';
+			if(defined('NO_REWRITE')){
+				$base_url .= 'index.php/';
+			}
 			$this->setConfig('base_url', $base_url);
 		}
 		

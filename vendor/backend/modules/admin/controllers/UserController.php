@@ -15,6 +15,7 @@ use fayfox\models\tables\Actionlogs;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
 use fayfox\core\HttpException;
+use fayfox\core\Loader;
 
 class UserController extends AdminController{
 	public function __construct(){
@@ -96,7 +97,7 @@ class UserController extends AdminController{
 		));
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();
@@ -210,7 +211,7 @@ class UserController extends AdminController{
 		
 		$this->layout->subtitle = "用户 - {$this->view->user['username']}";
 		
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();

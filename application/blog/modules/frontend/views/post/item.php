@@ -2,6 +2,7 @@
 use fayfox\helpers\Date;
 use fayfox\helpers\Html;
 use fayfox\models\tables\Messages;
+use fayfox\models\Post;
 ?>
 <div class="col-main">
 	<article class="post-item">
@@ -12,7 +13,7 @@ use fayfox\models\tables\Messages;
 			<h1><?php echo Html::encode($post['title'])?></h1>
 		</header>
 		<div class="post-content">
-			<?php echo $post['content']?>
+			<?php echo Post::formatContent($post)?>
 		</div>
 		<div class="post-tags">
 			<?php echo Html::link('<span>#'.Html::encode($post['cat_title']).'</span>', array('cat/'.$post['cat_id']), array(
@@ -86,6 +87,7 @@ use fayfox\models\tables\Messages;
 <div class="clear"></div>
 
 <script type="text/javascript" src="<?php echo $this->url()?>js/jquery.sourcerer.js"></script>
+<script type="text/javascript" src="<?php echo $this->url()?>js/prettify.js"></script>
 <script>
 $(function(){
 	$('.showCode').sourcerer('js html css php'); // Display all languages
@@ -93,6 +95,8 @@ $(function(){
 	$('.showCodeHTML').sourcerer('html'); // Display HTML only
 	$('.showCodePHP, .lang-php').sourcerer('php'); // Display PHP only
 	$('.showCodeCSS').sourcerer('css'); // Display CSS only
+
+	prettyPrint();
 
 	$("#leave-message-submit").click(function(){
 		$.ajax({

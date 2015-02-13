@@ -5,4 +5,7 @@ return array(
 		'ttl'=>1,
 		'on_post'=>'remove',
 	),
+	'frontend/index/index'=>array(
+		'ttl'=>1,
+	),
 );

@@ -21,17 +21,5 @@ class FBase{
 	 */
 	public function setConfig($item, $value, $filename = 'main'){
 		Config::getInstance()->set($item, $value, $filename);
-	}
-	
-	/**
-	 * 引入一个插件，事实上就是包含一个php文件进来
-	 */
-	public function loadPlugin($name){
-		if(file_exists(APPLICATION_PATH . "plugins/{$name}.php")){
-			require_once APPLICATION_PATH . "plugins/{$name}.php";
-		}else if(file_exists(BACKEND_PATH . "plugins/{$name}.php")){
-			require_once BACKEND_PATH . "plugins/{$name}.php";
-		}
-	}
-	
+	}	
 }

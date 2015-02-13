@@ -13,7 +13,7 @@ class DbController extends InstallController{
 	
 	public function createTables(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/tables.sql');
+		$sql = file_get_contents(__DIR__.'/../data/tables.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
@@ -24,7 +24,7 @@ class DbController extends InstallController{
 	
 	public function setCities(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/cities.sql');
+		$sql = file_get_contents(__DIR__.'/../data/cities.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
@@ -35,7 +35,7 @@ class DbController extends InstallController{
 	
 	public function setRegions(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/regions.sql');
+		$sql = file_get_contents(__DIR__.'/../data/regions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
@@ -46,7 +46,7 @@ class DbController extends InstallController{
 	
 	public function setCats(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/cats.sql');
+		$sql = file_get_contents(__DIR__.'/../data/cats.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
@@ -57,7 +57,7 @@ class DbController extends InstallController{
 	
 	public function setActions(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/actions.sql');
+		$sql = file_get_contents(__DIR__.'/../data/actions.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		
@@ -68,7 +68,7 @@ class DbController extends InstallController{
 	
 	public function setSystem(){
 		$prefix = $this->config->get('db.table_prefix');
-		$sql = file_get_contents(dirname(__FILE__).'/../data/system.sql');
+		$sql = file_get_contents(__DIR__.'/../data/system.sql');
 		$sql = str_replace(array('{{$prefix}}', '{{$time}}'), array($prefix, $this->current_time), $sql);
 		$this->db->execute($sql);
 		

@@ -15,6 +15,7 @@ use fayfox\models\Setting;
 use fayfox\core\Response;
 use fayfox\helpers\Html;
 use fayfox\core\HttpException;
+use fayfox\core\Loader;
 
 class OperatorController extends AdminController{
 	public function __construct(){
@@ -189,7 +190,7 @@ class OperatorController extends AdminController{
 		
 		$this->layout->subtitle = "用户 - {$this->view->user['username']}";
 		
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render();

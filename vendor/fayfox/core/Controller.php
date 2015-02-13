@@ -33,10 +33,6 @@ class Controller{
 	 */
 	public $flash;
 	/**
-	 * @var Plugin
-	 */
-	public $plugin;
-	/**
 	 * @var FWidget
 	 */
 	public $widget;
@@ -71,7 +67,6 @@ class Controller{
 		$this->session = Session::getInstance();
 		$this->cache = new Cache();
 		$this->flash = new Flash();
-		$this->plugin = new Plugin();
 		$this->config = Config::getInstance();
 		$this->current_time = time();
 		$this->uri = Uri::getInstance();

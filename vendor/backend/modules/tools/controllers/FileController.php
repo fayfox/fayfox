@@ -8,6 +8,7 @@ use fayfox\helpers\Image;
 use fayfox\helpers\SecurityCode;
 use fayfox\core\Validator;
 use fayfox\core\HttpException;
+use fayfox\core\Loader;
 
 class FileController extends Controller{
 	public function pic(){
@@ -95,9 +96,9 @@ class FileController extends Controller{
 	
 	private function view_pic($file){
 		if($file !== false){
-			if(file_exists($file['file_path'].$file['raw_name'].$file['file_ext'])){
+			if(file_exists((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])){
 				header('Content-type: '.$file['file_type']);
-				readfile($file['file_path'].$file['raw_name'].$file['file_ext']);
+				readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 			}else{
 				header('Content-type: image/jpeg');
 				readfile(BASEPATH . 'images/no-image.jpg');
@@ -111,7 +112,7 @@ class FileController extends Controller{
 	private function view_thumbnail($file){
 		if($file !== false){
 			header('Content-type: '.$file['file_type']);
-			readfile($file['file_path'].$file['raw_name'].'-100x100.jpg');
+			readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100.jpg');
 		}else{
 			$spares = $this->config->get('spares');
 			$spare = $spares[$this->input->get('s', null, 'default')];
@@ -138,7 +139,7 @@ class FileController extends Controller{
 		if(!$h)throw new HttpException('不完整的请求', 500);
 		
 		if($file !== false){
-			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = Image::get_img((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		
 			if($dw == 0){
 				$dw = $w;
@@ -188,7 +189,7 @@ class FileController extends Controller{
 		}
 		
 		if($file !== false){
-			$img = Image::get_img($file['file_path'].$file['raw_name'].$file['file_ext']);
+			$img = Image::get_img((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 		
 			$img = Image::zoom($img, $dw, $dh);
 		
@@ -224,19 +225,19 @@ class FileController extends Controller{
 	}
 	
 	public function qrcode(){
-		$this->plugin->load('phpqrcode/qrlib');
+		Loader::vendor('phpqrcode/qrlib');
 		\QRcode::png(base64_decode($this->input->get('data')), false, QR_ECLEVEL_M, 4, 2);
 	}
 	
 	public function download(){
 		if($file_id = $this->input->get('id', 'intval')){
 			if($file = Files::model()->find($file_id)){
-				if(substr($file['file_path'], 0, 4) == './..'){
+				if(substr((defined('NO_REWRITE') ? './public/' : '').$file['file_path'], 0, 4) == './..'){
 					//私有文件不允许在此方法下载
 					throw new HttpException('文件不存在');
 				}
 				Files::model()->inc($file_id, 'downloads', 1);
-				$data = file_get_contents($file['file_path'].$file['raw_name'].$file['file_ext']);
+				$data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
 				if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
 					header('Content-Type: "'.$file['file_type'].'"');
 					header('Content-Disposition: attachment; filename="'.$file['raw_name'].$file['file_ext'].'"');

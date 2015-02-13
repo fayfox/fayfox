@@ -6,6 +6,7 @@ use fayfox\models\User;
 use fayfox\models\Log;
 use fayfox\core\Response;
 use fayfox\models\tables\Logs;
+use fayfox\core\Loader;
 
 class LoginController extends Controller{
 	public function __construct(){
@@ -36,7 +37,7 @@ class LoginController extends Controller{
 		}
 		
 		//引入IP地址库
-		$this->plugin->load('IpLocation/IpLocation.class');
+		Loader::vendor('IpLocation/IpLocation.class');
 		$this->view->iplocation = new \IpLocation();
 		
 		$this->view->render('index');
