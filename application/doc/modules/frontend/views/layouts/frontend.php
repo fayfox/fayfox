@@ -1,6 +1,5 @@
 <?php
-use fayfox\models\Option;
-use fayfox\helpers\Html;
+use fay\helpers\Html;
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,10 +9,7 @@ use fayfox\helpers\Html;
 <?php if(!empty($canonical)){?>
 <link rel="canonical" href="<?php echo $canonical?>" />
 <?php }?>
-<title><?php if(!empty($title)){
-	echo $title, '_';
-}
-echo Option::get('sitename')?></title>
+<title><?php echo $title ? $title : ''?></title>
 <meta content="<?php if(isset($keywords))echo Html::encode($keywords);?>" name="keywords" />
 <meta content="<?php if(isset($description))echo Html::encode($description);?>" name="description" />
 <link type="text/css" rel="stylesheet" href="<?php echo $this->staticFile('css/style.css')?>" >
@@ -22,7 +18,6 @@ echo Option::get('sitename')?></title>
 <script type="text/javascript" src="<?php echo $this->url()?>js/custom/system.min.js"></script>
 <script>
 system.base_url = '<?php echo $this->url()?>';
-system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </script>
 <!--[if lt IE 9]>
 	<script type="text/javascript" src="<?php echo $this->url()?>js/html5.js"></script>
@@ -30,21 +25,20 @@ system.user_id = '<?php echo F::session()->get('id', 0)?>';
 </head>
 <body>
 <div class="wrapper">
-	<?php $this->renderPartial('layouts/_sidebar-menu')?>
+	<?php $this->renderPartial('layouts/_sidebar_menu')?>
 	<div class="main-content">
 		<div class="cf main-title">
-			<h1 class="fl">页面标题</h1>
+			<h1 class="fl"><?php echo isset($page_title) ? $page_title : ''?></h1>
+			<?php if(isset($breadcrumb)){?>
 			<ol class="fr breadcrumb">
 				<li>
-					<a href=""><i class="icon-home"></i>主页</a>
+					<a href="<?php echo $this->url()?>"><i class="icon-home"></i>主页</a>
 				</li>
-				<li>
-					<a href="">分类</a>
-				</li>
-				<li class="active">
-					<span>正文</span>
-				</li>
+				<?php foreach($breadcrumb as $b){?>
+				<li><?php echo Html::link($b['text'], $b['href'])?></li>
+				<?php }?>
 			</ol>
+			<?php }?>
 		</div>
 		<div class="main-content-inner"><?php echo $content?></div>
 		<?php $this->renderPartial('layouts/_footer')?>

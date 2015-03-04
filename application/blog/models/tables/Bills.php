@@ -1,7 +1,7 @@
 <?php
 namespace blog\models\tables;
 
-use fayfox\core\db\Table;
+use fay\core\db\Table;
 
 class Bills extends Table{
 	const TYPE_OUT = 1;//支出

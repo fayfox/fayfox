@@ -1,7 +1,7 @@
 <?php
-use fayfox\models\Post;
-use fayfox\helpers\Date;
-use fayfox\helpers\Html;
+use fay\models\Post;
+use fay\helpers\Date;
+use fay\helpers\Html;
 
 $post_cats = Post::model()->getCats($data['id']);
 ?>

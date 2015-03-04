@@ -1,7 +1,7 @@
 <?php
 /**
- * url重写（不要改以后设置，否则可能导致系统无法正常运行）
- * 当然你也可以在服务器商做这些设置，当服务器不方便设置的时候，这里更方便程序员掌控。
+ * url重写（不要改以下设置，否则可能导致系统无法正常运行）
+ * 当然你也可以在服务器上做这些设置，当服务器不方便设置的时候，这里更方便程序员掌控。
  */
 return array(
 	'/^a$/'=>'admin/login/index',
@@ -24,5 +24,5 @@ return array(
 	'/^file\/qrcode(.*)$/'=>'tools/file/qrcode$1',
 	'/^file\/download(.*)$/'=>'tools/file/download$1',
 	
-	'/^redirect(.*)$/'=>'tools/redirect/index$1',
+	'/^redirect(.*)$/'=>'tools/redirect/index$1',//页面跳转
 );

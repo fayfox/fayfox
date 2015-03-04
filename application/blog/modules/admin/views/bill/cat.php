@@ -1,5 +1,5 @@
 <?php
-use fayfox\helpers\Html;
+use fay\helpers\Html;
 
 function showCats($cats, $dep = 0){?>
 	<ul class="cat-list">

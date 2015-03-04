@@ -1,7 +1,7 @@
 <?php
 namespace blog\widgets\rand_posts\controllers;
 
-use fayfox\core\Widget;
+use fay\core\Widget;
 
 class AdminController extends Widget{
 	

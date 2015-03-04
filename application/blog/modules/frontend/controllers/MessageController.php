@@ -2,8 +2,8 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\models\tables\Messages;
-use fayfox\core\Validator;
+use fay\models\tables\Messages;
+use fay\core\Validator;
 
 class MessageController extends FrontController{
 	public function create(){

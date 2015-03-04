@@ -49,4 +49,5 @@ return array(
 	'360Spider',
 	'bingbot/2.0',
 	'YisouSpider',
+	'BingPreview',
 );

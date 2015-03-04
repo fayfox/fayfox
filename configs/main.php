@@ -18,10 +18,6 @@ return array(
 	 * 数据库参数
 	 */
 	'db'=>array(
-// 		'host'=>'112.124.64.22',				//数据库服务器
-// 		'user'=>'framework',					//用户名
-// 		'password'=>'FhvDA8YznCMf7KCS',			//密码
-// 		'dbname'=>'fayfox_develop',				//数据库名
 		'host'=>'localhost',					//数据库服务器
 		'user'=>'root',							//用户名
 		'password'=>'',							//密码
@@ -50,7 +46,7 @@ return array(
 	/*
 	 * 若为true，则页面地步会列出所有被执行的sql语句等信息
 	 */
-	'debug'=>false,
+	'debug'=>true,
 	
 	/*
 	 * 是否启用钩子，视application而定
@@ -131,13 +127,7 @@ return array(
 	'send_sms'=>true,//短信开关
 	
 	/*
-	 * 是否七牛云存储
-	 * 若启用，需要配置config/qiniu.php
-	 */
-	'qiniu'=>true,
-	
-	/*
-	 * 若用到加密类（/system/backend/library/Encrypt.php），需要配置此key
+	 * 若用到加密类，需要配置此key
 	 */
 	'encryption_key'=>'m3cQ3mFAuy6z7LF2',//加密用的密钥
 );

@@ -1,12 +1,12 @@
 <?php
-use fayfox\core\Controller;
-use fayfox\core\Input;
-use fayfox\core\Model;
-use fayfox\core\Form;
-use fayfox\core\Cache;
-use fayfox\core\Session;
-use fayfox\core\Config;
-use fayfox\core\Db;
+use fay\core\Controller;
+use fay\core\Input;
+use fay\core\Model;
+use fay\core\Form;
+use fay\core\Cache;
+use fay\core\Session;
+use fay\core\Config;
+use fay\core\Db;
 
 /**
  * 超级类，可以在任何地方获取各种方法
@@ -22,7 +22,7 @@ class F{
 	
 	/**
 	 * 获取Input类实例
-	 * @return \fayfox\core\Input
+	 * @return \fay\core\Input
 	 */
 	public static function input(){
 		return Input::getInstance();
@@ -30,7 +30,7 @@ class F{
 	
 	/**
 	 * 获取Session类实例
-	 * @return \fayfox\core\Session
+	 * @return \fay\core\Session
 	 */
 	public static function session(){
 		return Session::getInstance();
@@ -49,7 +49,7 @@ class F{
 	 * 获取一个表单实例，若name为null，返回第一个被实例化的表单。
 	 * 	若没有表单被实例化，实例化一个default
 	 * @param null|string $name 默认为第一个被实例化的表单
-	 * @return \fayfox\core\Form
+	 * @return \fay\core\Form
 	 */
 	public static function form($name = 'default'){
 		if($name === null){
@@ -69,7 +69,7 @@ class F{
 	
 	/**
 	 * 获取一个Cache实例
-	 * @return \fayfox\core\Cache
+	 * @return \fay\core\Cache
 	 */
 	public static function cache(){
 		return Cache::getInstance();
@@ -77,7 +77,7 @@ class F{
 	
 	/**
 	 * 获取Config实例
-	 * @return \fayfox\core\Config
+	 * @return \fay\core\Config
 	 */
 	public static function config(){
 		return Config::getInstance();
@@ -85,7 +85,7 @@ class F{
 	
 	/**
 	 * 获取F::app()->widget
-	 * @return \fayfox\core\FWidget
+	 * @return \fay\core\FWidget
 	 */
 	public static function widget(){
 		return self::app()->widget;
@@ -93,7 +93,7 @@ class F{
 	
 	/**
 	 * 返回数据库实例
-	 * @return \fayfox\core\Db
+	 * @return \fay\core\Db
 	 */
 	public static function db(){
 		return Db::getInstance();

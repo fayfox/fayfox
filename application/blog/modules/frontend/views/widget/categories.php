@@ -1,5 +1,5 @@
 <?php
-use fayfox\helpers\Html;
+use fay\helpers\Html;
 
 function renderCats($cats, $uri, $dep = 0){
 	$html = '<ul';

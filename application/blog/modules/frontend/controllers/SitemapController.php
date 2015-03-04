@@ -2,8 +2,8 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\models\tables\Posts;
-use fayfox\models\Category;
+use fay\models\tables\Posts;
+use fay\models\Category;
 
 class SitemapController extends FrontController{
 	public function xml(){

@@ -57,7 +57,13 @@ var common = {
 //			});
 		});
 	},
+	'prettyPrint':function(){
+		system.getScript(system.url('js/prettify.js'), function(){
+			prettyPrint();
+		});
+	},
 	'init':function(){
 		this.mainMenu();
+		this.prettyPrint();
 	}
 };

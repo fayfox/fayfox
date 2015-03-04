@@ -7,7 +7,7 @@ return array(
 		//Controller实例化后执行
 		array(
 			'router'=>'/^(admin)\/.*$/i',
-			'file'=>'AdminMenu',
+			'function'=>'blog\\plugins\\AdminMenu::run',
 		),
 	),
 );

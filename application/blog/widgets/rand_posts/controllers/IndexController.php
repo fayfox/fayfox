@@ -1,9 +1,9 @@
 <?php
 namespace blog\widgets\rand_posts\controllers;
 
-use fayfox\core\Widget;
-use fayfox\models\tables\Posts;
-use fayfox\core\Sql;
+use fay\core\Widget;
+use fay\models\tables\Posts;
+use fay\core\Sql;
 
 class IndexController extends Widget{
 	

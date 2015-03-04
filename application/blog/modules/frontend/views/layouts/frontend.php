@@ -1,6 +1,6 @@
 <?php
-use fayfox\helpers\Html;
-use fayfox\models\Option;
+use fay\helpers\Html;
+use fay\models\Option;
 
 $menu = array(
 	array(

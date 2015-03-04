@@ -2,12 +2,12 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\models\Option;
-use fayfox\core\Sql;
-use fayfox\models\tables\Posts;
-use fayfox\common\ListView;
-use fayfox\models\Category;
-use fayfox\core\HttpException;
+use fay\models\Option;
+use fay\core\Sql;
+use fay\models\tables\Posts;
+use fay\common\ListView;
+use fay\models\Category;
+use fay\core\HttpException;
 
 class IndexController extends FrontController{
 	public function __construct(){

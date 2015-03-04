@@ -1,4 +1,4 @@
-<?php use fayfox\helpers\Html;?>
+<?php use fay\helpers\Html;?>
 <aside class="widget recent-post">
 	<div class="widget-title"><?php echo Html::encode($data['title'])?></div>
 	<ul>

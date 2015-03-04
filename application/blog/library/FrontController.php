@@ -1,9 +1,9 @@
 <?php
 namespace blog\library;
 
-use fayfox\core\Controller;
-use fayfox\helpers\RequestHelper;
-use fayfox\models\tables\SpiderLogs;
+use fay\core\Controller;
+use fay\helpers\RequestHelper;
+use fay\models\tables\SpiderLogs;
 
 class FrontController extends Controller{
 	public $layout_template = 'frontend';

@@ -5,7 +5,7 @@
 		</div>
 		<div class="copyright">
 			&copy; 2014
-			<a href="http://www.fayfox.com">fayfox.com</a>
+			<a href="http://www.fayfox.com" target="_blank">fayfox.com</a>
 		</div>
 	</div>
 </footer>

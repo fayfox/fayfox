@@ -2,8 +2,8 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\core\HttpException;
-use fayfox\models\Post;
+use fay\core\HttpException;
+use fay\models\Post;
 
 class PostController extends FrontController{
 	public function __construct(){

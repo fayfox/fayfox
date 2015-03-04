@@ -15,3 +15,5 @@ img{border:0;}
 code{border:1px solid #eaeaea;margin:0 2px;padding:1px 5px;background-color:#f8f8f8;border-radius:3px;color:#d14;}
 blockquote{border-left:4px solid #ddd;color:#777;padding:0 15px;margin-bottom:15px;}
 p{margin-bottom:7px;}
+
+pre.prettyprint{background:#f7f7f7;line-height:1.45;padding:16px;font-size:85%;border-radius:3px;border:0;}

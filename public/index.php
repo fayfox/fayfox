@@ -1,6 +1,6 @@
 <?php
-use fayfox\core\Bootstrap;
-use fayfox\core\Hook;
+use fay\core\Bootstrap;
+use fay\core\Hook;
 
 session_start();//开启session
 define('START', microtime(true));

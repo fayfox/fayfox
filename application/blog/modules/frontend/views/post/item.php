@@ -1,8 +1,8 @@
 <?php
-use fayfox\helpers\Date;
-use fayfox\helpers\Html;
-use fayfox\models\tables\Messages;
-use fayfox\models\Post;
+use fay\helpers\Date;
+use fay\helpers\Html;
+use fay\models\tables\Messages;
+use fay\models\Post;
 ?>
 <div class="col-main">
 	<article class="post-item">
@@ -74,7 +74,7 @@ use fayfox\models\Post;
 <div class="col-side">
 	<?php echo F::widget()->render('profile')?>
 	<?php echo F::widget()->render('contact')?>
-	<?php echo F::widget()->render('fayfox/category_post', array(
+	<?php echo F::widget()->render('fay/category_post', array(
 		'title'=>'相关文章',
 		'top'=>$post['cat_id'],
 		'subclassification'=>true,

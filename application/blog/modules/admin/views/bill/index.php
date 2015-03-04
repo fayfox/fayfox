@@ -1,5 +1,5 @@
 <?php
-use fayfox\helpers\Html;
+use fay\helpers\Html;
 use blog\models\tables\Bills;
 ?>
 <div class="col-2-3">

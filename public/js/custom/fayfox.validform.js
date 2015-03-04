@@ -68,23 +68,40 @@
 				},
 				'string':function(value, params, attribute){
 					var settings = $.validform.merge({
-						'special_characters':true,//是否允许特殊字符
+						'format':null,//特殊格式
 						'max':null,
 						'min':null,
-						'equal':null,
+						'equal':null,//定长
 						'tooLong':'{$attribute}不能超过{$max}个字符',
 						'tooShort':'{$attribute}不能少于{$min}个字符',
 						'notEqual':'{$attribute}长度必须为{$min}个字符',
-						'noSpecialCharacters':'{$attribute}不能包含数字，字母，下划线和中横线以外的特殊字符'
+						'formatError':'{$attribute}格式不正确',
 					}, params);
 					
-					if(!settings.special_characters && !/^[a-zA-Z_0-9-]+$/.test(value)){
-						return $.validform._renderMsg(settings.noSpecialCharacters, {
-							'min':settings.min,
-							'max':settings.max,
-							'equal':settings.equal,
-							'attribute':attribute ? attribute : '参数'
-						});
+					var formats = {
+						'alias':/^[a-zA-Z_0-9-]+$/,//数字，字母，下划线和中横线
+						'numeric':/^\d+$/,//纯数字
+						'alnum':/^[a-zA-Z0-9]+$/,//数字+字母
+					};
+					
+					if(settings.format){
+						if(typeof(formats[settings.format]) != 'undefined'){
+							var pattern = formats[settings.format];
+						}else{
+							if(typeof(settings.format) == 'object'){
+								var pattern = settings.format;
+							}else{
+								eval('pattern = '+settings.format);
+							}
+						}
+						if(!pattern.test(value)){
+							return $.validform._renderMsg(settings.formatError, {
+								'min':settings.min,
+								'max':settings.max,
+								'equal':settings.equal,
+								'attribute':attribute ? attribute : '参数'
+							});
+						}
 					}
 					
 					if(settings.equal){
@@ -122,8 +139,12 @@
 					var settings = $.validform.merge({
 						'length':null,
 						'decimal':2,
-						'tooLong':'{$attribute}必须是小于{$max}的数字',
+						'max':null,
+						'min':null,
+						'tooLong':'{$attribute}必须是{$min}到{$max}的数字',
 						'decimalTooLong':'{$attribute}小数位不能多于{$decimal}位',
+						'tooBig':'{$attribute}必须是不大于{$max}的数字',
+						'tooSmall':'{$attribute}必须是不小于{$min}的数字',
 						'message':'{$attribute}必须是数字'
 					}, params);
 					
@@ -150,10 +171,25 @@
 							return $.validform._renderMsg(settings.tooLong, {
 								'length':settings.length,
 								'decimal':settings.decimal,
-								'max':max,
+								'max':(settings.max && settings.max < max) ? settings.max : max,
+								'min':(settings.min && settings.min > -max) ? settings.min : -max,
 								'attribute':attribute ? attribute : '参数'
 							});
 						}
+					}
+					
+					if(settings.max && parseFloat(value) > settings.max){
+						return $.validform._renderMsg(settings.tooBig, {
+							'max':settings.max,
+							'attribute':attribute ? attribute : '参数'
+						});
+					}
+					
+					if(settings.min && parseFloat(value) < settings.min){
+						return $.validform._renderMsg(settings.tooSmall, {
+							'min':settings.min,
+							'attribute':attribute ? attribute : '参数'
+						});
 					}
 					
 					return true;

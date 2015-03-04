@@ -2,7 +2,7 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\models\tables\Files;
+use fay\models\tables\Files;
 
 class FileController extends FrontController{
 	public function download(){

@@ -2,23 +2,26 @@
 namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
-use fayfox\models\Option;
+use fay\core\Sql;
+use fay\models\Post;
 
 class IndexController extends FrontController{
-	public function __construct(){
-		parent::__construct();
-		
-		$this->layout->title = Option::get('seo_index_keywords');
-		$this->layout->keywords = Option::get('seo_index_keywords');
-		$this->layout->description = Option::get('seo_index_description');
-		
-		$this->layout->current_directory = 'home';
-		
-		$this->config->set('debug', true);
-	}
-	
 	public function index(){
-		$this->view->render();
+		$this->layout->title = 'Fayfox开发文档  - 1.0';
+		$this->layout->page_title = 'Fayfox开发文档';
+		
+		$sql = new Sql();
+		$sql->from('posts', 'p', 'cat_id')
+			->joinLeft('categories', 'c', 'p.cat_id = c.id', 'alias,title,description')
+			->order('last_modified_time DESC')
+			->limit(20)
+			->group('p.cat_id')
+		;
+		$this->view->last_modified_cats = $sql->fetchAll();
+		
+		$this->view->assign(array(
+			'posts'=>Post::model()->getByCatAlias('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+		))->render();
 	}
 	
 }

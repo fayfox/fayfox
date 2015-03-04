@@ -1,6 +1,6 @@
 <?php
 use blog\models\tables\Bills;
-use fayfox\helpers\Date;
+use fay\helpers\Date;
 ?><tr>
 	<td><?php echo $data['realname']?></td>
 	<td><?php if($data['type'] == Bills::TYPE_IN){

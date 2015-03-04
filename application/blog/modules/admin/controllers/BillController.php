@@ -1,15 +1,15 @@
 <?php
 namespace blog\modules\admin\controllers;
 
-use backend\library\AdminController;
-use fayfox\models\tables\Users;
-use fayfox\models\Category;
-use fayfox\core\Sql;
-use fayfox\common\ListView;
+use cms\library\AdminController;
+use fay\models\tables\Users;
+use fay\models\Category;
+use fay\core\Sql;
+use fay\common\ListView;
 use blog\models\tables\Bills;
-use fayfox\helpers\Html;
-use fayfox\core\Response;
-use fayfox\core\HttpException;
+use fay\helpers\Html;
+use fay\core\Response;
+use fay\core\HttpException;
 
 class BillController extends AdminController{
 	public function __construct(){

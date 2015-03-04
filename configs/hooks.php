@@ -5,20 +5,24 @@
  * 匹配到的钩子会根据file信息调用，执行action方法
  * {
  *     '格式':{
- *         'file':{
- *             '描述':'文件名，位于hooks文件夹下（同时也是类名）',
+ *         'function':{
+ *             '描述':{
+ *                 '类方法':'array('blog\plugins\AdminMenu', 'run')',
+ *                 '静态方法':'blog\plugins\AdminMenu::run',
+ *                 '匿名函数':function(){...},
+ *             },
  *             '必须':'是'
- *         },
- *         'action':{
- *             '描述':'调用该hook执行方法，默认为run',
- *             '必须':'否'
- *         },
+ *         }
  *         'router':{
  *             '描述':'用于匹配路由的正则，若不设置，所有请求都将执行此hook（特殊hook除外）',
  *             '必须':'否'
  *         }
  *     },
  *     '锚点位置说明':{
+ *         'after_uri':{
+ *             '执行时间':'Uri实例化之后（即系统Url解析完毕）',
+ *             '传入参数':{}
+ *         },
  *         'after_controller_constructor':{
  *             '执行时间':'Controller被实例化之后执行',
  *             '传入参数':{}

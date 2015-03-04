@@ -1,5 +1,5 @@
 <?php
-use fayfox\helpers\Html;
+use fay\helpers\Html;
 ?>
 <aside class="widget recent-post">
 	<div class="widget-title">相关文章</div>

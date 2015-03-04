@@ -1,7 +1,7 @@
 <?php
 namespace blog\widgets\contact\controllers;
 
-use fayfox\core\Widget;
+use fay\core\Widget;
 
 class IndexController extends Widget{
 	

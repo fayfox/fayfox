@@ -499,6 +499,23 @@ var common = {
 			}else{
 				window.CKEDITOR_BASEPATH = system.url('js/ckeditor/');
 				system.getScript(system.url('js/ckeditor/ckeditor.js'), function(){
+					//清空table的一些默认设置
+					CKEDITOR.on('dialogDefinition', function(ev){
+						var dialogName = ev.data.name;
+						var dialogDefinition = ev.data.definition;
+
+						if (dialogName == 'table'){
+							var info = dialogDefinition.getContents('info');
+
+							info.get('txtWidth')['default'] = '';
+							info.get('txtBorder')['default'] = '';
+							info.get('txtCellSpace')['default'] = '';
+							info.get('txtCellPad')['default'] = '';
+							info.get('txtCols')['default'] = '3';
+							info.get('selHeaders')['default'] = 'row';
+						}
+					});
+					
 					var config = {
 						'height':$('#visual-editor').height()
 					};
@@ -734,6 +751,8 @@ var common = {
 			}else{
 				$('.wrapper').block();
 			}
+		}).on('click', '#batch-form-submit-2', function(){
+			$('#batch-form-submit').click();
 		});
 	},
 	'dragsortList':function(){

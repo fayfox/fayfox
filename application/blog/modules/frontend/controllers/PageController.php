@@ -2,9 +2,9 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fayfox\models\tables\Pages;
-use fayfox\core\Validator;
-use fayfox\core\HttpException;
+use fay\models\tables\Pages;
+use fay\core\Validator;
+use fay\core\HttpException;
 
 class PageController extends FrontController{
 	public function __construct(){
