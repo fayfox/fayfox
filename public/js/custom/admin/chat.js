@@ -78,25 +78,25 @@ var chat = {
 			(function(){
 				return chat.permissions.approve ?
 					['<a href="javascript:;" class="reply-link" data-id="', data.id, '" data-username="', data[chat.display_name], '">',
-						'<i class="icon-reply"></i>回复',
+						'<i class="fa fa-reply"></i>回复',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions.approve ?
 					['<a href="javascript:;" class="color-green approve-link', data.status == chat.status.approved ? ' hide' : '', '" data-id="', data.id, '">',
-						'<i class="icon-eye"></i>批准',
+						'<i class="fa fa-eye"></i>批准',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions.unapprove ?
 					['<a href="javascript:;" class="color-orange unapprove-link', data.status == chat.status.unapproved ? ' hide' : '', '" data-id="', data.id, '">',
-						'<i class="icon-eye-slash"></i>驳回',
+						'<i class="fa fa-eye-slash"></i>驳回',
 					'</a>'].join('') : ''
 			}()),
 			(function(){
 				return chat.permissions['delete'] ?
 					['<a href="javascript:;" class="color-red delete-link" data-id="', data.id, '">',
-						'<i class="icon-trash"></i>回收站',
+						'<i class="fa fa-trash-o"></i>回收站',
 					'</a>'].join('') : ''
 			}()),
 			'</div>',

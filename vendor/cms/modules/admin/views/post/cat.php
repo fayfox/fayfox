@@ -10,14 +10,12 @@ function showCats($cats, $dep = 0){?>
 					<?php if(F::app()->checkPermission('admin/post/cat-sort')){?>
 					<span class="w100 block fl">
 					排序：<?php echo Html::inputText('sort[]', $c['sort'], array(
-						'size'=>3,
-						'maxlength'=>3,
 						'data-id'=>$c['id'],
-						'class'=>"edit-sort w30 cat-{$c['id']}-sort",
+						'class'=>"edit-sort w35 cat-{$c['id']}-sort",
 					))?>
 					</span>
 					<?php }?>
-					<?php 
+					<?php
 						echo $c['is_nav'] ? Html::link('导航:<span class="tick-circle"></span>', 'javascript:;', array(
 							'class'=>F::app()->checkPermission('admin/post/cat-edit') ? 'is-nav-link' : '',
 							'data-id'=>$c['id'],
@@ -78,7 +76,7 @@ function showCats($cats, $dep = 0){?>
 						'cat_id'=>$c['id'],
 					)), array(
 						'class'=>'color-green hover-link',
-						'prepend'=>'<i class="icon-pencil"></i>',
+						'prepend'=>'<i class="fa fa-pencil"></i>',
 					), true)?>
 				</span>
 			</div>

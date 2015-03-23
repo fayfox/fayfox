@@ -67,6 +67,7 @@ table{border-spacing:0;}
 .wp45{width:45%;}
 .wp90{width:90%;}
 .wp99{width:99%;}
+.wp100{width:100%;}
 .h40{height:30px;}
 .h60{height:60px;}
 .h90{height:90px;}
@@ -84,6 +85,7 @@ table{border-spacing:0;}
 .mt20{margin-top:20px;}
 .mb10{margin-bottom:10px;}
 .mb5{margin-bottom:5px}
+.mr5{margin-right:5px;}
 .mr10{margin-right:10px;}
 .ml5{margin-left:5px;}
 .block{display:block;}
@@ -301,8 +303,8 @@ input.bigtxt{font-size:1.7em;line-height:100%;outline:0 none;padding:3px 1%;widt
 .cat-item-title.terminal{background:url("images/tree/L12.gif") no-repeat scroll 0 0 transparent;}
 .cat-item-container:hover{background-color:#F2F2F2;transition:all 0.2s linear 0s;}
 .cat-item-container{height:28px;line-height:28px;}
-.cat-item-container a{background:url("images/cut-off-line.png") no-repeat scroll right 2px transparent;padding:0 5px;}
-.cat-item-container a:last-child{background:0 none;}
+.cat-item-container .options a{background:url("images/cut-off-line.png") no-repeat scroll right 2px transparent;padding:0 5px;}
+.cat-item-container .options a:last-child{background:0 none;}
 .cat-item-container a.hover-link{visibility:hidden;}
 .cat-list-container .hover a.hover-link{visibility:visible;}
 

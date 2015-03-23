@@ -157,38 +157,98 @@ var common = {
 		});
 	},
 	'menu':function(){
-		//左侧菜单条的打开关闭
-		$(document).on('click', '.menu-head', function(){
-			//菜单被折叠或菜单属于当前tab的时候，无效果
-			if(!$('body').hasClass('folded') && !$(this).parent().hasClass('sel')){
-				$(this).toggleClass('open');
-				if($(this).hasClass('open')){
-					$(this).next('ul').slideDown();
+		if($('#faycms').hasClass('responsive')){
+			//响应式布局后台
+			//点击开关
+			$('#main-menu').on('click', '.has-sub > a', function(){
+				var slideElapse = 300;//滑动效果持续
+				$li = $(this).parent();//父级li
+				$ul = $(this).next('ul');//子菜单的ul
+				$_li = $ul.children('li');//子菜单的li
+				if($li.hasClass('expanded')){
+					//关闭
+					$ul.slideUp(slideElapse);
+					$li.removeClass('expanded');
 				}else{
-					$(this).next('ul').slideUp('normal', function(){
-						$(this).css('display', '');
-					});
+					//打开
+					$ul.slideDown(slideElapse);
+					$li.addClass('expanded');
+					$_li.addClass('is-hidden');
+					setTimeout((function($li){
+						return function(){
+							console.log($li);
+							$li.addClass('is-shown');
+						}
+					})($_li), 0);
+					setTimeout((function($li){
+						return function(){
+							$li.removeClass('is-hidden is-shown');
+						}
+					})($_li), 500);
+					
+					//关闭其它打开的同辈元素
+					$li.siblings('.expanded').removeClass('expanded').children('ul').slideUp(slideElapse);
 				}
-			}
-		});
-		//左侧菜单条的显示隐藏
-		$(document).on('click', '#collapse-menu', function(){
-			$('body').toggleClass('folded');
-			$.ajax({
-				type: 'POST',
-				url: system.url('admin/system/setting'),
-				data: {
-					'_key':'admin_body_class',
-					'class':$('body').hasClass('folded') ? 'folded' : ''
+				return false;
+			});
+			
+			$('.toggle-mobile-menu').on('click', function(){
+				$('#main-menu').toggleClass('mobile-is-visible');
+			});
+			
+			//自定义滚动条
+			system.getScript(system.url('js/jquery.slimscroll.min.js'), function(){
+//				$('.sidebar-menu-inner').slimScroll({
+//					'height':$('html').height(),
+//					'width':$('.sidebar-menu').width(),
+//					'color':'#a1b2bd',
+//					'opacity':.3
+//				});
+//				$(window).resize(function(){
+//					$('.sidebar-menu-inner').slimScroll({'destroy':1});
+//					$('.sidebar-menu-inner').slimScroll({
+//						'height':$('html').height(),
+//						'width':$('.sidebar-menu').width(),
+//						'color':'#a1b2bd',
+//						'opacity':.3
+//					});
+//				});
+			});
+		}else{
+			//传统布局模版（IE6/7）
+			//左侧菜单条的打开关闭
+			$(document).on('click', '.menu-head', function(){
+				//菜单被折叠或菜单属于当前tab的时候，无效果
+				if(!$('body').hasClass('folded') && !$(this).parent().hasClass('sel')){
+					$(this).toggleClass('open');
+					if($(this).hasClass('open')){
+						$(this).next('ul').slideDown();
+					}else{
+						$(this).next('ul').slideUp('normal', function(){
+							$(this).css('display', '');
+						});
+					}
 				}
 			});
-		});
+			//左侧菜单条的显示隐藏
+			$(document).on('click', '#collapse-menu', function(){
+				$('body').toggleClass('folded');
+				$.ajax({
+					type: 'POST',
+					url: system.url('admin/system/setting'),
+					data: {
+						'_key':'admin_body_class',
+						'class':$('body').hasClass('folded') ? 'folded' : ''
+					}
+				});
+			});
+		}
 	},
 	'screenMeta':function(){
 		$('.screen-meta-links').on('click', 'a', function(){
 			$(this).toggleClass('active');
 			if($(this).hasClass('active')){
-				$($(this).attr('href')).slideDown();
+				$($(this).attr('href')).show();
 				$(this).parent()
 					.css({
 						'margin-top':'-1px'
@@ -200,7 +260,7 @@ var common = {
 					.find('a').removeClass('active');
 					
 			}else{
-				$($(this).attr('href')).slideUp();
+				$($(this).attr('href')).hide();
 				$(this).parent()
 					.css({
 						'margin-top':''
